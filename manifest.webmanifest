@@ -1,0 +1,9 @@
+{
+  "name": "ビルドネア — THE GRAND TABLE",
+  "short_name": "ビルドネア",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b0e",
+  "theme_color": "#0b0d11",
+  "icons": []
+}
