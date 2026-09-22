@@ -34,6 +34,16 @@ button{border:1px solid #80672f;color:#f8eaca;background:linear-gradient(#3a2e18
 @media(max-width:520px){.topbar{align-items:flex-start}.top-stats{gap:4px}.game-layout{margin-top:6px}.board-wrap{border-radius:10px}.board{padding:4px;gap:2px}.tile{border-radius:5px}.tile-index{display:none}.tile-name{font-size:7px}.tile-icon{font-size:14px}.control-deck{grid-template-columns:1fr;padding:7px}.dice-zone{margin-bottom:3px}.players-list{grid-template-columns:1fr 1fr}.right-column{display:block}.detail-panel{margin-top:7px}.player-row{grid-template-columns:48px 1fr 92px;gap:5px}.world-center{inset:14%}.center-title{display:none}.phase-text{max-width:92%;font-size:10px;padding:5px 8px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
+
+.online-tabs{display:flex;gap:8px;margin:12px 0}.online-tabs button{flex:1}
+.online-pane{border:1px solid #8b6b2f;border-radius:12px;padding:12px;background:#0b0f15aa;margin-bottom:10px}
+.online-lobby{border:1px solid #c69b42;border-radius:12px;padding:14px;background:#0a0d12d9}
+.room-code-box{text-align:center;font-size:18px;letter-spacing:.12em;margin-bottom:10px}.room-code-box b{font-size:28px;color:var(--gold2)}
+.local-test{margin-top:14px;border-top:1px solid #ffffff20;padding-top:10px}.local-test summary{cursor:pointer;color:#bfc2cc}
+.setup-modal input{width:100%;min-height:42px;border-radius:8px;border:1px solid #6d5a34;background:#0a0d12;color:var(--ivory);padding:8px}
+.online-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #80662e;border-radius:999px;padding:4px 8px;font-size:12px}
+.online-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:#4fd178;box-shadow:0 0 8px #4fd178}
+
 </style>
 </head>
 <body>
@@ -112,23 +122,54 @@ button{border:1px solid #80672f;color:#f8eaca;background:linear-gradient(#3a2e18
     <div class="modal-ornament">◆</div>
     <h1>ビルドネア</h1>
     <div class="subtitle">THE GRAND TABLE</div>
-    <p class="lead">2〜4人・ローカル交代制。CPUを混ぜて1人でもテストプレイできます。</p>
-    <div class="setup-grid">
-      <label>プレイヤー人数
-        <select id="playerCount"><option value="2">2人</option><option value="3">3人</option><option value="4">4人</option></select>
-      </label>
-      <label>目標所持金
-        <select id="goalMoney"><option value="500">500G</option><option value="1000">1000G</option><option value="1500">1500G</option><option value="2000">2000G</option></select>
-      </label>
+    <p class="lead">Discordの友達と、別々の端末から同じ部屋に入って2〜4人でリアルタイム対戦できます。</p>
+
+    <div class="online-tabs">
+      <button id="tabCreateRoom" class="primary" type="button">部屋を作る</button>
+      <button id="tabJoinRoom" type="button">部屋に入る</button>
     </div>
-    <div id="playerSetupRows" class="player-setup-rows"></div>
-    <div class="setup-note">初期所持金は100G。開始順は全員がダイスを振り、大きい順で決定します。</div>
-    <button id="startGameBtn" class="primary big">ゲーム開始</button>
+
+    <div id="onlineCreatePane" class="online-pane">
+      <div class="setup-grid">
+        <label>あなたの名前<input id="onlineHostName" maxlength="20" value="あなた"></label>
+        <label>最大人数<select id="onlineMaxPlayers"><option value="2">2人</option><option value="3">3人</option><option value="4" selected>4人</option></select></label>
+        <label>目標所持金<select id="onlineGoal"><option value="500">500G</option><option value="1000">1000G</option><option value="1500">1500G</option><option value="2000">2000G</option></select></label>
+      </div>
+      <button id="createRoomBtn" class="primary big" type="button">オンライン部屋を作成</button>
+    </div>
+
+    <div id="onlineJoinPane" class="online-pane" hidden>
+      <div class="setup-grid">
+        <label>ルームコード<input id="onlineRoomCode" maxlength="6" placeholder="ABC123" autocomplete="off"></label>
+        <label>あなたの名前<input id="onlineJoinName" maxlength="20" value="Player"></label>
+      </div>
+      <button id="joinRoomBtn" class="primary big" type="button">部屋に参加</button>
+    </div>
+
+    <div id="onlineLobby" class="online-lobby" hidden>
+      <div class="room-code-box">ROOM <b id="roomCodeLabel">------</b></div>
+      <div class="setup-note">このコードをDiscordで共有してください。参加者全員が揃ったらホストが開始します。</div>
+      <div id="lobbyPlayers" class="player-setup-rows"></div>
+      <button id="onlineStartBtn" class="primary big" type="button" hidden>ゲーム開始</button>
+      <button id="leaveRoomBtn" type="button">部屋から退出</button>
+    </div>
+
+    <details class="local-test">
+      <summary>ローカルテストプレイ</summary>
+      <div class="setup-grid">
+        <label>プレイヤー人数<select id="playerCount"><option value="2">2人</option><option value="3">3人</option><option value="4">4人</option></select></label>
+        <label>目標所持金<select id="goalMoney"><option value="500">500G</option><option value="1000">1000G</option><option value="1500">1500G</option><option value="2000">2000G</option></select></label>
+      </div>
+      <div id="playerSetupRows" class="player-setup-rows"></div>
+      <div class="setup-note">初期所持金は30G。開始順は全員がダイスを振り、大きい順で決定します。</div>
+      <button id="startGameBtn" class="big" type="button">ローカルゲーム開始</button>
+    </details>
   </div>
 </div>
 
 <div id="modalOverlay" class="overlay" aria-hidden="true"><div id="modalContent" class="modal"></div></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
 <script>
 'use strict';
 
@@ -588,6 +629,129 @@ function showEncyclopedia(){ const list=ALL_SKILLS.map(s=>`<div class="ency-item
 function showRules(){ openModal(`<div class="modal-title">ゲームルール</div><div class="rules"><h3>目的</h3><p>目標所持金に最初に到達したプレイヤーが勝利。</p><h3>ダイス</h3><p>毎ターン白・黒2個を振り、どちらをMOVE、どちらをACTIONにするか選択。ゾロ目は出目×10G。</p><h3>盤面</h3><p>全24マス。0 START / 6 BANK / 12 STATION / 18 ARENA。通常は反時計回りに進行。</p><h3>START</h3><p>1周目20G、2周目以降20G×周回数。ピッタリ停止ではS/L率の高い特別ショップ。</p><h3>BANK</h3><p>通過時10G預金。ピッタリ停止でBANKプール全額を獲得。</p><h3>STATION / ARENA</h3><p>STATIONは任意の通常マスへワープして到着効果発動。ARENAは指名決戦、勝者は敗者のスキルを1枚奪う。敗者にスキルがない場合は通常G報酬。</p><h3>ショップ</h3><p>ショップの提示枚数はACTIONダイスの出目と同数。品揃え拡張を所持している場合はACTION+1枚。提示された未所持カードは、所持Gが許す限り1回の来店で何枚でも購入できます。同じスキルは重複購入できません。</p><h3>カード</h3><p>全49種。表示順はN→R→S→L、同レアリティは価格順。使い切りカードは原則❌状態で残ります。</p></div><div class="modal-actions"><button data-close>閉じる</button></div>`);els.modalContent.querySelector('[data-close]').addEventListener('click',closeModal); }
 
 $('#encyclopediaBtn').addEventListener('click',showEncyclopedia);$('#rulesBtn').addEventListener('click',showRules);$('#resetBtn').addEventListener('click',()=>{state.turnToken++;closeModal();els.setupOverlay.classList.add('show');});
+
+
+// ---------- Online Multiplayer (Supabase Realtime) ----------
+const SUPABASE_URL = 'https://fyfkvedizdhvrdmcbkqq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_xZSKbdnnOjyrhGK5PWFzjA_sAp-uMP6';
+const ROOM_API = `${SUPABASE_URL}/functions/v1/buildnaire-room`;
+const sb = window.supabase?.createClient ? window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false}}) : null;
+const online = {enabled:false,code:'',token:'',playerId:'',version:0,channel:null,applying:false,syncing:false,isHost:false};
+
+const onlineEls = {
+  tabCreate:document.getElementById('tabCreateRoom'), tabJoin:document.getElementById('tabJoinRoom'),
+  createPane:document.getElementById('onlineCreatePane'), joinPane:document.getElementById('onlineJoinPane'),
+  lobby:document.getElementById('onlineLobby'), hostName:document.getElementById('onlineHostName'),
+  joinName:document.getElementById('onlineJoinName'), code:document.getElementById('onlineRoomCode'),
+  max:document.getElementById('onlineMaxPlayers'), goal:document.getElementById('onlineGoal'),
+  createBtn:document.getElementById('createRoomBtn'), joinBtn:document.getElementById('joinRoomBtn'),
+  startBtn:document.getElementById('onlineStartBtn'), leaveBtn:document.getElementById('leaveRoomBtn'),
+  roomCode:document.getElementById('roomCodeLabel'), lobbyPlayers:document.getElementById('lobbyPlayers'),
+  badge:document.getElementById('onlineBadge')
+};
+async function roomApi(payload){
+  const r=await fetch(ROOM_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(data.error||`通信エラー (${r.status})`);
+  return data;
+}
+function saveOnlineSession(){if(online.enabled)localStorage.setItem('buildnaire_online_session',JSON.stringify({code:online.code,token:online.token,playerId:online.playerId}));}
+function clearOnlineSession(){localStorage.removeItem('buildnaire_online_session');}
+function localTurn(){return !online.enabled || currentPlayer()?.clientId===online.playerId;}
+function renderLobby(room){
+  const ps=room.players||[];
+  onlineEls.roomCode.textContent=room.code;
+  onlineEls.lobbyPlayers.innerHTML=ps.map((p,i)=>`<div class="player-row"><div class="player-tag">${i+1}P ${escapeHtml(p.avatar)}</div><div><b>${escapeHtml(p.name)}</b>${p.id===online.playerId?'（あなた）':''}</div></div>`).join('');
+  online.isHost=ps[0]?.id===online.playerId;
+  onlineEls.startBtn.hidden=!online.isHost;
+  onlineEls.startBtn.disabled=ps.length<2;
+  if(online.isHost)onlineEls.startBtn.textContent=ps.length<2?'2人以上で開始':'ゲーム開始';
+}
+function showLobby(room){onlineEls.createPane.hidden=true;onlineEls.joinPane.hidden=true;onlineEls.lobby.hidden=false;els.setupOverlay.classList.add('show');renderLobby(room);}
+async function subscribeRoom(code){
+  if(!sb)return;
+  if(online.channel){try{await sb.removeChannel(online.channel);}catch{}}
+  online.channel=sb.channel(`buildnaire:${code}`)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'buildnaire_rooms',filter:`code=eq.${code}`},p=>applyRoomUpdate(p.new))
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'buildnaire_players'},()=>refreshRoom())
+    .on('postgres_changes',{event:'DELETE',schema:'public',table:'buildnaire_players'},()=>refreshRoom())
+    .subscribe();
+}
+async function refreshRoom(){if(!online.enabled)return;try{const d=await roomApi({action:'get',code:online.code});applyRoomUpdate(d.room);}catch(e){console.warn(e);}}
+function rebuildRemoteLog(){
+  if(!Array.isArray(state.logs))return;
+  els.gameLog.innerHTML='';
+  [...state.logs].reverse().forEach(x=>{const d=document.createElement('div');d.className='log-entry';d.textContent=x;els.gameLog.appendChild(d);});
+}
+function hydrateOnlineControls(){
+  if(!online.enabled)return;
+  if(!localTurn()){
+    setHint(`${currentPlayer()?.name||'相手'} の操作を待っています…`);
+    els.primaryActions.innerHTML='<button disabled>相手のターンです</button>';els.skillActions.innerHTML='';return;
+  }
+  if(state.winner)return;
+  if(state.phase==='turnStart'||(state.dice?.[0]==null&&state.dice?.[1]==null)){buildAwaitRollActions();return;}
+  if(state.phase==='afterDice'){afterDiceRoll();}
+}
+function applyRoomUpdate(room){
+  if(!room)return;
+  online.version=Number(room.version||0);
+  if(room.status==='lobby'){renderLobby(room);return;}
+  if(room.state&&Array.isArray(room.state.players)){
+    online.applying=true;
+    const remote=JSON.parse(JSON.stringify(room.state));
+    Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,remote);
+    rebuildRemoteLog();renderAll();
+    renderDie(els.whiteDie,state.dice?.[0]??null);renderDie(els.blackDie,state.dice?.[1]??null);
+    els.setupOverlay.classList.remove('show');
+    if(onlineEls.badge){onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;}
+    online.applying=false;hydrateOnlineControls();
+  }
+}
+let syncTimer=null;
+function scheduleOnlineSync(){
+  if(!online.enabled||online.applying||!localTurn()||state.phase==='setup'||state.phase==='order')return;
+  clearTimeout(syncTimer);syncTimer=setTimeout(syncOnlineState,160);
+}
+async function syncOnlineState(){
+  if(!online.enabled||online.applying||online.syncing||!localTurn())return;
+  online.syncing=true;
+  try{
+    const copy=JSON.parse(JSON.stringify(state));
+    const d=await roomApi({action:'sync',code:online.code,token:online.token,version:online.version,state:copy});
+    online.version=d.room.version;
+  }catch(e){console.warn('sync',e);await refreshRoom();}finally{online.syncing=false;}
+}
+const _renderAll=renderAll;renderAll=function(){_renderAll();scheduleOnlineSync();};
+const _addLog=addLog;addLog=function(text,kind=''){_addLog(text,kind);if(!online.applying){if(!Array.isArray(state.logs))state.logs=[];state.logs.push(text);if(state.logs.length>80)state.logs=state.logs.slice(-80);scheduleOnlineSync();}};
+const _setButtons=setButtons;setButtons=function(primary=[],skills=[]){if(online.enabled&&!localTurn()){els.primaryActions.innerHTML='<button disabled>相手のターンです</button>';els.skillActions.innerHTML='';return;}_setButtons(primary,skills);};
+const _isHuman=isHuman;isHuman=function(p){return online.enabled?p?.clientId===online.playerId:_isHuman(p);};
+
+async function createOnlineRoom(){
+  if(!sb){toast('オンライン機能の読み込みに失敗しました。');return;}
+  onlineEls.createBtn.disabled=true;
+  try{const d=await roomApi({action:'create',name:onlineEls.hostName.value.trim(),max_players:+onlineEls.max.value,goal:+onlineEls.goal.value});
+    Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);
+    if(onlineEls.badge){onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;}
+  }catch(e){toast(e.message);}finally{onlineEls.createBtn.disabled=false;}
+}
+async function joinOnlineRoom(){
+  onlineEls.joinBtn.disabled=true;
+  try{const d=await roomApi({action:'join',code:onlineEls.code.value.trim().toUpperCase(),name:onlineEls.joinName.value.trim()});
+    Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);
+    if(onlineEls.badge){onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;}
+  }catch(e){toast(e.message);}finally{onlineEls.joinBtn.disabled=false;}
+}
+async function startOnlineGame(){onlineEls.startBtn.disabled=true;try{const d=await roomApi({action:'start',code:online.code,token:online.token});applyRoomUpdate(d.room);}catch(e){toast(e.message);onlineEls.startBtn.disabled=false;}}
+async function leaveOnlineRoom(){try{await roomApi({action:'leave',code:online.code,token:online.token});}catch(e){console.warn(e);}if(online.channel&&sb){try{await sb.removeChannel(online.channel);}catch{}}clearOnlineSession();location.reload();}
+
+onlineEls.tabCreate?.addEventListener('click',()=>{onlineEls.createPane.hidden=false;onlineEls.joinPane.hidden=true;onlineEls.tabCreate.classList.add('primary');onlineEls.tabJoin.classList.remove('primary');});
+onlineEls.tabJoin?.addEventListener('click',()=>{onlineEls.createPane.hidden=true;onlineEls.joinPane.hidden=false;onlineEls.tabJoin.classList.add('primary');onlineEls.tabCreate.classList.remove('primary');});
+onlineEls.createBtn?.addEventListener('click',createOnlineRoom);onlineEls.joinBtn?.addEventListener('click',joinOnlineRoom);onlineEls.startBtn?.addEventListener('click',startOnlineGame);onlineEls.leaveBtn?.addEventListener('click',leaveOnlineRoom);
+onlineEls.code?.addEventListener('input',e=>e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6));
+
+(async()=>{try{const s=JSON.parse(localStorage.getItem('buildnaire_online_session')||'null');if(s?.code&&s?.token&&s?.playerId){Object.assign(online,{enabled:true,code:s.code,token:s.token,playerId:s.playerId});const d=await roomApi({action:'get',code:online.code});online.version=d.room.version;await subscribeRoom(online.code);if(onlineEls.badge){onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;}applyRoomUpdate(d.room);if(d.room.status==='lobby')showLobby(d.room);}}catch(e){console.warn('resume',e);clearOnlineSession();}})();
+
 
 // Keyboard accessibility: Escape closes non-setup dialogs.
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modalOverlay.classList.contains('show'))closeModal();});
