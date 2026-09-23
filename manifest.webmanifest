@@ -5,5 +5,10 @@
   "display": "standalone",
   "background_color": "#080b0e",
   "theme_color": "#0b0d11",
-  "icons": []
+  "icons": [],
+  "orientation": "landscape",
+  "display_override": [
+    "fullscreen",
+    "standalone"
+  ]
 }
