@@ -24,7 +24,7 @@
   --ivory:#fff6df;--muted:#b8bdc8;--blue:#2f7fd6;--red:#cb4b42;--green:#2c9a69;--purple:#7d55ba;
   --shadow:0 18px 60px #0009;--edge:inset 0 0 0 1px #f7d98355, inset 0 0 30px #0008;
 }
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#05090d;color:var(--ivory);font-family:"Yu Mincho","Hiragino Mincho ProN",Georgia,serif}
+*{box-sizing:border-box}[hidden]{display:none!important}html,body{margin:0;min-height:100%;background:#05090d;color:var(--ivory);font-family:"Yu Mincho","Hiragino Mincho ProN",Georgia,serif}
 body{overflow-x:hidden;background:
 radial-gradient(circle at 50% 5%,#31557755 0 12%,transparent 35%),
 linear-gradient(#08121e,#071016 48%,#040608 100%)}
@@ -206,7 +206,7 @@ body.ios-virtual-landscape .all-player-skills{max-height:150px!important;padding
 
 /* v16: iPhone/in-app browser safe portrait mode */
 body.ios-portrait-compact{overflow:auto!important}
-body.ios-portrait-compact .orientation-gate{display:none!important}
+body.ios-portrait-compact .orientation-gate{display:none!important}body.ios-portrait-compact .overlay:not(.show){display:none!important}body.ios-portrait-compact .overlay.show{display:grid!important}
 body.ios-portrait-compact .app-shell{padding:4px!important;min-height:100svh!important}
 body.ios-portrait-compact .topbar{height:auto!important;min-height:46px!important;padding:2px 2px 5px!important;align-items:center!important}
 body.ios-portrait-compact .brand-wrap{display:block!important;min-width:0!important}
@@ -253,7 +253,7 @@ body.ios-portrait-compact .skills-zone{grid-template-columns:1fr!important;gap:5
 body.ios-portrait-compact .dock-head{min-height:25px!important;padding:4px 6px!important;font-size:8px!important}
 body.ios-portrait-compact .current-skills{min-height:70px!important;padding:4px!important}
 body.ios-portrait-compact .all-player-skills{max-height:145px!important;padding:4px!important}
-body.ios-portrait-compact #setupOverlay{display:grid!important;padding:6px!important;align-items:center!important;overflow:auto!important}
+body.ios-portrait-compact #setupOverlay{padding:6px!important;align-items:center!important;overflow:auto!important}body.ios-portrait-compact #setupOverlay.show{display:grid!important}body.ios-portrait-compact #setupOverlay:not(.show){display:none!important}
 body.ios-portrait-compact #setupOverlay .setup-card{width:min(94vw,430px)!important;max-height:calc(100svh - 12px)!important;overflow:auto!important;padding:10px 12px!important}
 body.ios-portrait-compact #setupOverlay .setup-title{font-size:26px!important;line-height:1.05!important}
 body.ios-portrait-compact #setupOverlay .setup-title small{font-size:8px!important}
