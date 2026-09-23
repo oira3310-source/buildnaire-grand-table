@@ -715,7 +715,27 @@ async function resolveArrival(p,action,ctx={}){if(state.winner)return;const idx=
   addLog(`${p.name} が [${idx}] ${sq.name} に到着。`);switch(sq.type){case 'START':await startLand(p,action);break;case 'BANK':await bankLand(p);break;case 'STATION':return stationLand(p,action);case 'ARENA':await battleSquare(p,action,true);break;case 'Mine':if(await mineLand(p,action,ctx)==='redirect')return;break;case 'Shop':await shopEvent(p,action,{viaVIP:false,special:false});break;case 'Casino':await casinoLand(p,action);break;case 'Battle':await battleSquare(p,action,false);break}if(checkVictory())return;await endTurn()}
 async function startLand(p,action){addLog(`${p.name}：STARTピッタリ停止。特別ショップが開店。`,'special');await shopEvent(p,action,{special:true,viaVIP:false})}
 async function bankLand(p){let g=state.bankPool;if(hasSkill(p,'株券'))g=Math.floor(g*1.5);p.money+=g;state.bankPool=0;state.bankPassStreak=0;addLog(`${p.name}：BANKピッタリ停止、${g}G獲得。`,'special');if(g)floatMoney(`+${g}G`);renderAll()}
-async function stationLand(p,action){const opts=[13,14,15,16,17];let dest;if(isHuman(p))dest=await choiceModal('STATION','前方の5マスからワープ先を選択。途中マスは通過扱いになりません。',opts.map(i=>({label:`[${i}] ${BOARD[i].name}`,value:i})),false);else dest=opts.sort((a,b)=>cpuLandingScore(p,b)-cpuLandingScore(p,a))[0];p.pos=+dest;addLog(`${p.name}：STATION [12] → [${dest}] ${BOARD[dest].name} へワープ。`,'special');renderAll();return resolveArrival(p,action,{viaStation:true,rulerMoved:false})}
+async function stationLand(p,action){
+  const opts=[13,14,15,16,17];
+  const playerClientId=p.clientId;
+  const playerId=p.id;
+  let dest;
+  if(isHuman(p)){
+    dest=await choiceModal('STATION','前方の5マスからワープ先を選択。途中マスは通過扱いになりません。',opts.map(i=>({label:`[${i}] ${BOARD[i].name}`,value:i})),false)
+  }else{
+    dest=opts.slice().sort((a,b)=>cpuLandingScore(p,b)-cpuLandingScore(p,a))[0]
+  }
+  dest=Number(dest);
+  if(!opts.includes(dest)){
+    addLog(`${p.name}：STATIONの移動先を確定できませんでした。`,'bad');
+    return endTurn()
+  }
+  const liveP=state.players.find(x=>(playerClientId&&x.clientId===playerClientId)||(!playerClientId&&x.id===playerId))||p;
+  liveP.pos=dest;
+  addLog(`${liveP.name}：STATION [12] → [${dest}] ${BOARD[dest].name} へワープ。`,'special');
+  renderAll();
+  return resolveArrival(liveP,action,{viaStation:true})
+}
 
 async function mineLand(p,action,ctx={}){if(hasSkill(p,'トロッコ')&&!ctx.cartWarped){const use=isHuman(p)?await yesNoModal('トロッコ','元の鉱山効果を処理せず、次の鉱山へワープしますか？'):Math.random()<.45;if(use){let i=(p.pos+1)%24;while(BOARD[i].type!=='Mine')i=(i+1)%24;p.pos=i;addLog(`${p.name}：トロッコで次の鉱山 [${i}] へワープ。`,'special');renderAll();await resolveArrival(p,action,{...ctx,cartWarped:true});return 'redirect'}}let effective=action;if(hasSkill(p,'鉱脈の地図'))effective=Math.max(4,effective);if(hasSkill(p,'採掘ロボット'))effective*=2;let g=hasSkill(p,'熟練の炭鉱夫')?effective*7:effective*5;if(hasSkill(p,'黄金のピッケル'))g+=5;if(hasSkill(p,'地質学書')&&action%2===0)g+=5;if(hasSkill(p,'ダイヤモンドの刃'))g+=7;if(hasSkill(p,'カナリア'))g+=(state.movedSteps||0)*3;if(hasSkill(p,'ダイナマイト')){p.money+=10;for(const o of state.players)if(o!==p)o.money+=2;addLog(`${p.name}：ダイナマイト。自分+10G、他全員+2G。`,'special')}p.money+=g;addLog(`${p.name}：鉱山で ${g}G 獲得。`,'good');floatMoney(`+${g}G`);if(hasSkill(p,'錬金石')){p.pendingAlchemy=Math.floor(g/2);addLog(`${p.name}：錬金石に ${p.pendingAlchemy}G を蓄積。`,'special')}renderAll();return 'ok'}
 
@@ -792,7 +812,7 @@ function startRoomPolling(){
   };
   online.pollTimer=setTimeout(tick,250)
 }
-function applyRoomUpdate(room){if(!room)return;if(Number(room.version||0)<online.version)return;online.version=Number(room.version||0);online.lastStatus=room.status||online.lastStatus;if(room.status==='lobby'){renderLobby(room);return}if(room.status==='finished')stopRoomPolling();if(room.state&&Array.isArray(room.state.players)){online.applying=true;const remote=JSON.parse(JSON.stringify(room.state));Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,remote);normalizeState();if(state.phase==='awaitRoll'||state.dice?.[0]==null){state.phase='awaitRoll';state.dice=[null,null];state.moveIndex=null;state.actionIndex=null;state.currentMove=0;state.currentAction=0;state.moveDirection=1;state.rerolledOne=false;state.mirrorUsed=false;state.doublesAwarded=false;state.movedSteps=0;ui.diceBusy=false;ui.hoverPreview=null;clearMovePreview()}renderAll();els.setupOverlay.classList.remove('show');onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;online.applying=false;if(localTurn()&&!state.winner){if(state.phase==='awaitRoll'||state.dice?.[0]==null)buildAwaitRollActions();else if(state.phase==='afterDice')afterDiceRoll()}else if(!state.winner){setHint(`${currentPlayer()?.name||'相手'} の操作待ち`,`オンライン対戦中です。`);setButtons([],[])}}}
+function applyRoomUpdate(room){if(!room)return;if(Number(room.version||0)<=online.version)return;online.version=Number(room.version||0);online.lastStatus=room.status||online.lastStatus;if(room.status==='lobby'){renderLobby(room);return}if(room.status==='finished')stopRoomPolling();if(room.state&&Array.isArray(room.state.players)){online.applying=true;const remote=JSON.parse(JSON.stringify(room.state));Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,remote);normalizeState();if(state.phase==='awaitRoll'||state.dice?.[0]==null){state.phase='awaitRoll';state.dice=[null,null];state.moveIndex=null;state.actionIndex=null;state.currentMove=0;state.currentAction=0;state.moveDirection=1;state.rerolledOne=false;state.mirrorUsed=false;state.doublesAwarded=false;state.movedSteps=0;ui.diceBusy=false;ui.hoverPreview=null;clearMovePreview()}renderAll();els.setupOverlay.classList.remove('show');onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;online.applying=false;if(localTurn()&&!state.winner){if(state.phase==='awaitRoll'||state.dice?.[0]==null)buildAwaitRollActions();else if(state.phase==='afterDice')afterDiceRoll()}else if(!state.winner){setHint(`${currentPlayer()?.name||'相手'} の操作待ち`,`オンライン対戦中です。`);setButtons([],[])}}}
 let syncTimer=null;
 function scheduleOnlineSync(){if(!online.enabled||online.applying||online.syncing||!localTurn()||state.phase==='setup')return;clearTimeout(syncTimer);syncTimer=setTimeout(()=>syncOnlineState(false),180)}
 async function syncOnlineState(force=false){if(!online.enabled||online.applying||online.syncing||(!force&&!localTurn()))return;online.syncing=true;try{const copy=JSON.parse(JSON.stringify(state));const d=await roomApi({action:'sync',code:online.code,token:online.token,version:online.version,state:copy});online.version=d.room.version}catch(e){console.warn('sync',e);await refreshRoom()}finally{online.syncing=false}}
