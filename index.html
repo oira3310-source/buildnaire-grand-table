@@ -306,10 +306,72 @@ body.ios-portrait-compact #setupOverlay .lobby-actions{margin-top:6px!important;
   z-index:5;
 }
 #onlineRoomCode{
-  text-transform:uppercase;
-  letter-spacing:.12em;
+  text-transform:none;
+  letter-spacing:.18em;
   caret-color:#fff;
+  font-variant-numeric:tabular-nums;
 }
+
+/* v28: mobile skill visibility + larger CARD DETAIL */
+.card-detail-modal{min-height:440px!important;align-items:center!important;justify-content:center!important;padding:14px!important}
+.card-detail-modal .skill-card{width:286px!important;min-width:286px!important;height:398px!important;padding:46px 12px 12px!important;border-radius:14px!important}
+.card-detail-modal .skill-art{height:176px!important;font-size:104px!important}
+.card-detail-modal .skill-name{font-size:22px!important;margin:9px 0 7px!important}
+.card-detail-modal .skill-effect{height:78px!important;font-size:14px!important;line-height:1.42!important;padding:8px!important;overflow:auto!important}
+.card-detail-modal .skill-price{font-size:20px!important;margin-top:7px!important}
+.card-detail-modal .rarity-badge{width:40px!important;height:40px!important;font-size:24px!important;left:9px!important;top:8px!important}
+.card-detail-modal .cat-badge{width:38px!important;height:38px!important;right:9px!important;top:9px!important;font-size:20px!important}
+@media(max-width:980px){
+  .right-panel{grid-template-columns:1fr!important}
+  .game-log{order:1!important}
+  .detail-card-wrap{order:2!important;height:auto!important;min-height:190px!important}
+  .right-all-player-skills{max-height:300px!important;min-height:150px!important;padding:7px!important}
+  .right-all-player-skills .player-skill-row{grid-template-columns:88px minmax(0,1fr)!important;gap:7px!important;padding:7px!important}
+  .right-all-player-skills .row-info{font-size:10px!important}
+  .right-all-player-skills .row-info small{font-size:8px!important}
+  .right-all-player-skills .row-cards{gap:6px!important;overflow-x:auto!important}
+  .right-all-player-skills .mini-card{width:70px!important;min-width:70px!important;height:92px!important;padding:22px 4px 4px!important}
+  .right-all-player-skills .mini-card .rarity-badge{width:22px!important;height:22px!important;font-size:13px!important}
+  .right-all-player-skills .mini-card .cat-badge{width:20px!important;height:20px!important}
+  .right-all-player-skills .mini-card .skill-art{height:38px!important;font-size:27px!important}
+  .right-all-player-skills .mini-card .skill-name{font-size:8px!important}
+  .current-skills .mini-card{width:82px!important;min-width:82px!important;height:108px!important}
+  .current-skills .mini-card .skill-art{height:48px!important;font-size:32px!important}
+  .current-skills .mini-card .skill-name{font-size:9px!important}
+  .modal{width:min(94vw,620px)!important;max-height:94svh!important;padding:12px!important}
+  .card-detail-modal{min-height:350px!important;padding:8px!important}
+  .card-detail-modal .skill-card{width:230px!important;min-width:230px!important;height:330px!important;padding:39px 9px 9px!important}
+  .card-detail-modal .skill-art{height:142px!important;font-size:82px!important}
+  .card-detail-modal .skill-name{font-size:18px!important;margin:7px 0 5px!important}
+  .card-detail-modal .skill-effect{height:68px!important;font-size:12px!important;line-height:1.38!important;padding:6px!important}
+  .card-detail-modal .skill-price{font-size:17px!important}
+  .card-detail-modal .rarity-badge{width:34px!important;height:34px!important;font-size:20px!important}
+  .card-detail-modal .cat-badge{width:32px!important;height:32px!important}
+}
+body.ios-portrait-compact .right-panel{grid-template-columns:1fr!important}
+body.ios-portrait-compact .game-log{height:150px!important;min-height:150px!important}
+body.ios-portrait-compact .log-list{height:118px!important}
+body.ios-portrait-compact .detail-card-wrap{height:auto!important;min-height:185px!important}
+body.ios-portrait-compact .right-all-player-skills{max-height:270px!important;min-height:165px!important;padding:7px!important}
+body.ios-portrait-compact .right-all-player-skills .player-skill-row{grid-template-columns:82px minmax(0,1fr)!important;gap:6px!important;padding:6px!important}
+body.ios-portrait-compact .right-all-player-skills .row-info{font-size:9px!important}
+body.ios-portrait-compact .right-all-player-skills .row-info small{font-size:7px!important}
+body.ios-portrait-compact .right-all-player-skills .mini-card{width:64px!important;min-width:64px!important;height:84px!important;padding:20px 3px 3px!important}
+body.ios-portrait-compact .right-all-player-skills .mini-card .skill-art{height:34px!important;font-size:24px!important}
+body.ios-portrait-compact .right-all-player-skills .mini-card .skill-name{font-size:7px!important}
+@media(orientation:landscape) and (max-height:500px) and (pointer:coarse){
+  .right-panel{grid-template-columns:1fr!important}
+  .detail-card-wrap{height:auto!important;min-height:145px!important}
+  .right-all-player-skills{max-height:210px!important;min-height:130px!important}
+  .right-all-player-skills .player-skill-row{grid-template-columns:76px minmax(0,1fr)!important}
+  .right-all-player-skills .mini-card{width:58px!important;min-width:58px!important;height:78px!important}
+  .card-detail-modal .skill-card{width:190px!important;min-width:190px!important;height:270px!important;padding:33px 7px 7px!important}
+  .card-detail-modal .skill-art{height:112px!important;font-size:66px!important}
+  .card-detail-modal .skill-name{font-size:15px!important}
+  .card-detail-modal .skill-effect{height:58px!important;font-size:10px!important}
+  .card-detail-modal .skill-price{font-size:14px!important}
+}
+
 </style>
 </head>
 <body>
@@ -420,11 +482,11 @@ body.ios-portrait-compact #setupOverlay .lobby-actions{margin-top:6px!important;
       </div>
       <div id="onlineJoinPane" class="online-form" hidden>
         <label>名前<input id="onlineJoinName" maxlength="20" value="ゲスト"></label>
-        <label>ルームコード<input id="onlineRoomCode" type="text" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABC234"></label>
+        <label>ルームコード<input id="onlineRoomCode" type="text" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" spellcheck="false" placeholder="1234"></label>
         <button id="joinRoomBtn" class="hero-btn">参加</button>
       </div>
       <div id="onlineLobby" class="online-lobby" hidden>
-        <div class="room-code">ROOM <strong id="roomCodeLabel">------</strong></div>
+        <div class="room-code">ROOM <strong id="roomCodeLabel">----</strong></div>
         <div id="lobbyPlayers"></div>
         <div class="lobby-actions"><button id="onlineStartBtn" class="hero-btn">ゲーム開始</button><button id="leaveRoomBtn">退出</button></div>
       </div>
@@ -634,7 +696,7 @@ function cardHtml(s,mini=false){return `<div class="skill-card r-${s.rarity} ${m
 function bindCardClicks(root=document){root.querySelectorAll('[data-card-id]').forEach(el=>{el.onclick=()=>{const id=+el.dataset.cardId;const owned=state.players.flatMap(p=>p.skills||[]).find(x=>x.id===id&&x.used===el.classList.contains('used'));showCardDetail(owned||ALL_SKILLS.find(x=>x.id===id))}})}
 function showCardDetail(s){
   if(!s)return;
-  openModal(`<div class="modal-title">CARD DETAIL</div><div class="card-detail">${cardHtml(s)}</div><div class="modal-actions"><button data-close>閉じる</button></div>`)
+  openModal(`<div class="modal-title">CARD DETAIL</div><div class="card-detail card-detail-modal">${cardHtml(s)}</div><div class="modal-actions"><button data-close>閉じる</button></div>`)
 }
 function renderSkills(){const p=currentPlayer();const skills=(p?.skills||[]).slice().sort(sortSkills);els.currentSkillCount.textContent=`${skills.length}枚`;els.currentSkills.innerHTML=skills.length?skills.map(s=>cardHtml(s,true)).join(''):'<div class="empty-slot">カードを購入して<br>ビルドを作ろう</div>';els.allPlayersSkills.innerHTML=state.players.map((p,i)=>`<div class="player-skill-row ${i===state.turnIndex?'active':''}"><div class="row-info">${p.avatar||''} ${escapeHtml(p.name)}<small>${moneyFmt(p.money)} / 周回${p.lap||0} / ${p.skills?.length||0}枚</small></div><div class="row-cards">${(p.skills||[]).slice().sort(sortSkills).map(s=>cardHtml(s,true)).join('')||'<span style="color:#6f7782">未所持</span>'}</div></div>`).join('');bindCardClicks(els.currentSkills);bindCardClicks(els.allPlayersSkills)}
 function renderStatus(){const p=currentPlayer();renderDie(els.whiteDie,state.dice?.[0]);renderDie(els.blackDie,state.dice?.[1]);if(state.winner){setHint(`🏆 ${state.winner.name} 勝利`,`目標 ${state.goal}G を達成しました。`)}}
@@ -832,7 +894,7 @@ function scheduleOnlineSync(){if(!online.enabled||online.applying||online.syncin
 async function syncOnlineState(force=false){if(!online.enabled||online.applying||online.syncing||(!force&&!localTurn()))return;online.syncing=true;try{const copy=JSON.parse(JSON.stringify(state));const d=await roomApi({action:'sync',code:online.code,token:online.token,version:online.version,state:copy});online.version=d.room.version}catch(e){console.warn('sync',e);await refreshRoom()}finally{online.syncing=false}}
 async function flushOnlineSync(force=false){clearTimeout(syncTimer);let n=0;while(online.syncing&&n++<40)await wait(50);await syncOnlineState(force)}
 async function createOnlineRoom(){onlineEls.createBtn.disabled=true;try{const d=await roomApi({action:'create',name:onlineEls.hostName.value.trim(),max_players:+onlineEls.max.value,goal:+onlineEls.goal.value});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.createBtn.disabled=false}}
-async function joinOnlineRoom(){onlineEls.joinBtn.disabled=true;try{const roomCode=onlineEls.code.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);onlineEls.code.value=roomCode;const d=await roomApi({action:'join',code:roomCode,name:onlineEls.joinName.value.trim()});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.joinBtn.disabled=false}}
+async function joinOnlineRoom(){onlineEls.joinBtn.disabled=true;try{const roomCode=onlineEls.code.value.replace(/\D/g,'').slice(0,4);onlineEls.code.value=roomCode;const d=await roomApi({action:'join',code:roomCode,name:onlineEls.joinName.value.trim()});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.joinBtn.disabled=false}}
 async function startOnlineGame(){onlineEls.startBtn.disabled=true;try{const d=await roomApi({action:'start',code:online.code,token:online.token});applyRoomUpdate(d.room);startRoomPolling()}catch(e){toast(e.message);onlineEls.startBtn.disabled=false}}
 async function leaveOnlineRoom(){stopRoomPolling();try{await roomApi({action:'leave',code:online.code,token:online.token})}catch(e){toast(e.message);return}if(online.channel&&sb){try{await sb.removeChannel(online.channel)}catch{}}clearOnlineSession();location.reload()}
 
@@ -856,9 +918,9 @@ onlineEls.leaveBtn.onclick=leaveOnlineRoom;
 if(onlineEls.code){
   let composing=false;
   onlineEls.code.addEventListener('compositionstart',()=>{composing=true});
-  onlineEls.code.addEventListener('compositionend',e=>{composing=false;e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)});
-  onlineEls.code.addEventListener('input',e=>{if(!composing)e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)});
-  onlineEls.code.addEventListener('paste',()=>setTimeout(()=>{onlineEls.code.value=onlineEls.code.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)},0));
+  onlineEls.code.addEventListener('compositionend',e=>{composing=false;e.target.value=e.target.value.replace(/\D/g,'').slice(0,4)});
+  onlineEls.code.addEventListener('input',e=>{if(!composing)e.target.value=e.target.value.replace(/\D/g,'').slice(0,4)});
+  onlineEls.code.addEventListener('paste',()=>setTimeout(()=>{onlineEls.code.value=onlineEls.code.value.replace(/\D/g,'').slice(0,4)},0));
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modalOverlay.classList.contains('show'))closeModal()});
 
