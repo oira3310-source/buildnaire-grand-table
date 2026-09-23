@@ -489,7 +489,7 @@ const AVATARS=['🧙🏻‍♂️','🧝🏻‍♀️','🧑🏻‍🌾','🧛�
 const CPU_NAMES=['エマ','レオン','ミーナ'];
 
 const state={players:[],turnIndex:0,roundTurn:1,bankPool:0,bankPassStreak:0,goal:500,phase:'setup',dice:[null,null],moveIndex:null,actionIndex:null,currentMove:0,currentAction:0,moveDirection:1,rerolledOne:false,foresightLeft:0,mirrorUsed:false,doublesAwarded:false,movedSteps:0,winner:null,turnToken:0,logs:[]};
-const ui={hoverPreview:null};
+const ui={hoverPreview:null,buttonEpoch:0,diceBusy:false};
 
 const $=s=>document.querySelector(s);
 const els={
@@ -514,7 +514,35 @@ function toast(msg){const d=document.createElement('div');d.className='toast';d.
 function floatMoney(text,good=true){const d=document.createElement('div');d.className='money-float';d.style.left='50%';d.style.top='55%';d.style.color=good?'#8ff1b4':'#ff9b91';d.textContent=text;document.body.appendChild(d);setTimeout(()=>d.remove(),1500)}
 function addLog(text,kind=''){if(!Array.isArray(state.logs))state.logs=[];state.logs.push({text,kind});if(state.logs.length>120)state.logs=state.logs.slice(-120);renderLog();scheduleOnlineSync()}
 function setHint(title,sub=''){els.phaseText.textContent=title;els.actionHint.textContent=sub||title}
-function setButtons(primary=[],skills=[]){if(online.enabled&&!localTurn()){els.primaryActions.innerHTML='<button disabled>相手のターンです</button>';els.skillActions.innerHTML='';return}els.primaryActions.innerHTML='';els.skillActions.innerHTML='';for(const b of primary){const x=document.createElement('button');x.textContent=b.label;x.className=b.className||'';x.disabled=!!b.disabled;x.onclick=b.onClick;if(b.onEnter)x.onmouseenter=b.onEnter;if(b.onLeave)x.onmouseleave=b.onLeave;els.primaryActions.appendChild(x)}for(const b of skills){const x=document.createElement('button');x.textContent=b.label;x.disabled=!!b.disabled;x.onclick=b.onClick;if(b.onEnter)x.onmouseenter=b.onEnter;if(b.onLeave)x.onmouseleave=b.onLeave;els.skillActions.appendChild(x)}}
+function setButtons(primary=[],skills=[]){
+  const epoch=++ui.buttonEpoch;
+  if(online.enabled&&!localTurn()){
+    els.primaryActions.innerHTML='<button disabled>相手のターンです</button>';
+    els.skillActions.innerHTML='';
+    return
+  }
+  els.primaryActions.innerHTML='';
+  els.skillActions.innerHTML='';
+  const mount=(b,root)=>{
+    const x=document.createElement('button');
+    x.textContent=b.label;
+    x.className=b.className||'';
+    x.disabled=!!b.disabled;
+    if(b.onEnter)x.onmouseenter=b.onEnter;
+    if(b.onLeave)x.onmouseleave=b.onLeave;
+    x.onclick=async()=>{
+      if(x.disabled||epoch!==ui.buttonEpoch||typeof b.onClick!=='function')return;
+      x.disabled=true;
+      try{await b.onClick()}
+      finally{
+        if(epoch===ui.buttonEpoch&&x.isConnected)x.disabled=!!b.disabled
+      }
+    };
+    root.appendChild(x)
+  };
+  primary.forEach(b=>mount(b,els.primaryActions));
+  skills.forEach(b=>mount(b,els.skillActions))
+}
 function estimateMineReward(p,action,moveSteps){let effective=action;if(hasSkill(p,'鉱脈の地図'))effective=Math.max(4,effective);if(hasSkill(p,'採掘ロボット'))effective*=2;let gain=hasSkill(p,'熟練の炭鉱夫')?effective*7:effective*5;if(hasSkill(p,'黄金のピッケル'))gain+=5;if(hasSkill(p,'地質学書')&&action%2===0)gain+=5;if(hasSkill(p,'ダイヤモンドの刃'))gain+=7;if(hasSkill(p,'カナリア'))gain+=(moveSteps||0)*3;if(hasSkill(p,'ダイナマイト'))gain+=10;return {total:gain,effective}}
 function previewStartBonus(p){const nextLap=(p.lap||0)+1;let gain=(hasSkill(p,'黄金の偶像')?40:20)*nextLap;if(hasSkill(p,'大容量の財布'))gain+=40;const taxOwners=state.players.filter(o=>o!==p&&hasSkill(o,'通行税')).length;const tax=Math.min(p.money+gain,taxOwners*10);return {gain,tax,net:gain-tax,nextLap,taxOwners}}
 function previewBankStop(p){let gain=state.bankPool;if(hasSkill(p,'株券'))gain=Math.floor(gain*1.5);return gain}
@@ -583,7 +611,7 @@ function normalizeState(){state.players=(state.players||[]).map(normalizePlayer)
 
 async function startLocal(){const requested=+$('#localPlayers').value;const total=Math.max(2,requested);const ps=[];for(let i=0;i<total;i++){ps.push(normalizePlayer({id:i+1,name:i===0?'あなた':CPU_NAMES[i-1]||`CPU${i}`,avatar:AVATARS[i%4],color:COLORS[i%4],kind:i===0?'human':'cpu',money:30,pos:0,lap:0,skills:[],pendingAlchemy:0,smokeUsedThisLap:false},i))}const rolls=ps.map(p=>({p,r:randDie()+randDie(),tie:Math.random()})).sort((a,b)=>b.r-a.r||b.tie-a.tie);state.players=rolls.map(x=>x.p);state.turnIndex=0;state.roundTurn=1;state.bankPool=0;state.bankPassStreak=0;state.goal=+$('#localGoal').value;state.phase='awaitRoll';state.dice=[null,null];state.winner=null;state.logs=[];state.turnToken++;addLog(`ゲーム開始。開始順：${state.players.map(p=>p.name).join(' → ')}`,'special');els.setupOverlay.classList.remove('show');renderAll();await beginTurn()}
 
-async function beginTurn(){if(state.winner)return;const p=currentPlayer();if(!p)return;state.phase='awaitRoll';state.dice=[null,null];state.moveIndex=null;state.actionIndex=null;state.currentMove=0;state.currentAction=0;state.moveDirection=1;state.rerolledOne=false;state.mirrorUsed=false;state.foresightLeft=hasSkill(p,'予知夢')?2:0;state.doublesAwarded=false;state.movedSteps=0;state.turnToken++;
+async function beginTurn(){if(state.winner)return;const p=currentPlayer();if(!p)return;ui.diceBusy=false;state.phase='awaitRoll';state.dice=[null,null];state.moveIndex=null;state.actionIndex=null;state.currentMove=0;state.currentAction=0;state.moveDirection=1;state.rerolledOne=false;state.mirrorUsed=false;state.foresightLeft=hasSkill(p,'予知夢')?2:0;state.doublesAwarded=false;state.movedSteps=0;state.turnToken++;
   if(p.pendingAlchemy>0){const g=Math.floor(p.pendingAlchemy);p.pendingAlchemy=0;p.money+=g;addLog(`${p.name}：錬金石で +${g}G。`,'good');floatMoney(`+${g}G`)}
   if(hasSkill(p,'投資信託')){p.money+=5;addLog(`${p.name}：投資信託で +5G。`,'good')}
   addLog(`${p.name} のターン。`,'');renderAll();if(checkVictory())return;
@@ -592,17 +620,37 @@ async function beginTurn(){if(state.winner)return;const p=currentPlayer();if(!p)
 }
 function buildAwaitRollActions(){const p=currentPlayer();if(!p||state.winner)return;setHint(`${p.name} のターン`,`白黒2つのダイスを振ってください。`);const skills=[];const rec=getSkill(p,'リサイクル');if(rec&&!rec.used&&p.skills.some(s=>s!==rec&&s.rarity!=='L'))skills.push({label:'♻️ リサイクル',onClick:()=>useRecycle(p)});const cb=getSkill(p,'キャッシュバック');if(cb&&!cb.used&&p.skills.some(s=>s!==cb))skills.push({label:'💵 キャッシュバック',onClick:()=>useCashback(p)});setButtons([{label:'🎲 ダイスを振る',className:'primary',onClick:()=>rollDice()}],skills)}
 
-async function rollDice(){const p=currentPlayer();if(!p||state.winner)return;state.dice=[randDie(),randDie()];state.phase='afterDice';await animateDice();addLog(`${p.name}：ダイス ${state.dice[0]} / ${state.dice[1]}`);renderAll();if(!isHuman(p))return;afterDiceRoll()}
+async function rollDice(){
+  const p=currentPlayer();
+  if(!p||state.winner||state.phase!=='awaitRoll'||ui.diceBusy)return;
+  const turnToken=state.turnToken;
+  ui.diceBusy=true;
+  state.phase='rolling';
+  setHint(`${p.name}：ダイスを振っています`,'連打しても1回だけ判定されます。');
+  setButtons([{label:'🎲 振っています…',className:'primary',disabled:true}],[]);
+  state.dice=[randDie(),randDie()];
+  try{
+    await animateDice();
+    if(state.turnToken!==turnToken||currentPlayer()!==p||state.winner)return;
+    state.phase='afterDice';
+    addLog(`${p.name}：ダイス ${state.dice[0]} / ${state.dice[1]}`);
+    renderAll();
+  }finally{
+    ui.diceBusy=false
+  }
+  if(!isHuman(p))return;
+  afterDiceRoll()
+}
 function afterDiceRoll(){const p=currentPlayer();if(!p||state.winner)return;ui.hoverPreview=null;setHint(`白 ${state.dice[0]} / 黒 ${state.dice[1]}`,`どちらをMOVEに使うか選択してください。光っている枠が到着候補で、鉱山は見込み獲得金額を表示します。`);const skills=[];if(hasSkill(p,'予知夢')&&state.foresightLeft>0)skills.push({label:`🌙 予知夢（残${state.foresightLeft}）`,onClick:foresightReroll});if(hasSkill(p,'イカサマダイス')&&!state.rerolledOne)skills.push({label:'🎲 イカサマダイス',onClick:cheatReroll});if(hasSkill(p,'反転の鏡')&&!state.mirrorUsed)skills.push({label:'🪞 反転の鏡',onClick:mirrorFlip});setButtons([
   {label:`白${state.dice[0]}をMOVE / 黒${state.dice[1]}をACTION`,className:'primary',onClick:()=>selectMoveAction(0),onEnter:()=>{ui.hoverPreview=0;renderMovePreview()},onLeave:()=>{ui.hoverPreview=null;renderMovePreview()}},
   {label:`黒${state.dice[1]}をMOVE / 白${state.dice[0]}をACTION`,className:'danger',onClick:()=>selectMoveAction(1),onEnter:()=>{ui.hoverPreview=1;renderMovePreview()},onLeave:()=>{ui.hoverPreview=null;renderMovePreview()}}
 ],skills);renderMovePreview()}
-async function foresightReroll(){if(state.foresightLeft<=0)return;state.foresightLeft--;state.dice=[randDie(),randDie()];await animateDice();addLog(`${currentPlayer().name}：予知夢で両ダイス振り直し → ${state.dice[0]} / ${state.dice[1]}`,'special');renderAll();afterDiceRoll()}
-async function cheatReroll(){const p=currentPlayer();let idx;if(isHuman(p))idx=await choiceModal('イカサマダイス','振り直すダイスを選択。',[{label:`白 ${state.dice[0]}`,value:0},{label:`黒 ${state.dice[1]}`,value:1}],true);else idx=state.dice[0]<state.dice[1]?0:1;if(idx===null)return;state.dice[idx]=randDie();state.rerolledOne=true;await animateDice();addLog(`${p.name}：イカサマダイス → ${idx===0?'白':'黒'} ${state.dice[idx]}`,'special');renderAll();if(isHuman(p))afterDiceRoll()}
-async function mirrorFlip(){const p=currentPlayer();let idx;if(isHuman(p))idx=await choiceModal('反転の鏡','反転するダイスを選択。',[{label:`白 ${state.dice[0]} → ${7-state.dice[0]}`,value:0},{label:`黒 ${state.dice[1]} → ${7-state.dice[1]}`,value:1}],true);else idx=state.dice[0]<state.dice[1]?0:1;if(idx===null)return;state.dice[idx]=7-state.dice[idx];state.mirrorUsed=true;addLog(`${p.name}：反転の鏡 → ${idx===0?'白':'黒'} ${state.dice[idx]}`,'special');renderAll();if(isHuman(p))afterDiceRoll()}
+async function foresightReroll(){if(state.phase!=='afterDice'||state.foresightLeft<=0||ui.diceBusy)return;ui.diceBusy=true;state.foresightLeft--;state.dice=[randDie(),randDie()];try{await animateDice();addLog(`${currentPlayer().name}：予知夢で両ダイス振り直し → ${state.dice[0]} / ${state.dice[1]}`,'special');renderAll()}finally{ui.diceBusy=false}afterDiceRoll()}
+async function cheatReroll(){if(state.phase!=='afterDice'||ui.diceBusy)return;const p=currentPlayer();let idx;if(isHuman(p))idx=await choiceModal('イカサマダイス','振り直すダイスを選択。',[{label:`白 ${state.dice[0]}`,value:0},{label:`黒 ${state.dice[1]}`,value:1}],true);else idx=state.dice[0]<state.dice[1]?0:1;if(idx===null)return;state.dice[idx]=randDie();state.rerolledOne=true;await animateDice();addLog(`${p.name}：イカサマダイス → ${idx===0?'白':'黒'} ${state.dice[idx]}`,'special');renderAll();if(isHuman(p))afterDiceRoll()}
+async function mirrorFlip(){if(state.phase!=='afterDice'||ui.diceBusy)return;const p=currentPlayer();let idx;if(isHuman(p))idx=await choiceModal('反転の鏡','反転するダイスを選択。',[{label:`白 ${state.dice[0]} → ${7-state.dice[0]}`,value:0},{label:`黒 ${state.dice[1]} → ${7-state.dice[1]}`,value:1}],true);else idx=state.dice[0]<state.dice[1]?0:1;if(idx===null)return;state.dice[idx]=7-state.dice[idx];state.mirrorUsed=true;addLog(`${p.name}：反転の鏡 → ${idx===0?'白':'黒'} ${state.dice[idx]}`,'special');renderAll();if(isHuman(p))afterDiceRoll()}
 function awardDoublesIfNeeded(p){if(state.doublesAwarded||state.dice[0]!==state.dice[1])return;let g=state.dice[0]*10;if(hasSkill(p,'ジャックポット'))g+=77;p.money+=g;state.doublesAwarded=true;addLog(`${p.name}：ゾロ目 ${state.dice[0]}！ +${g}G${hasSkill(p,'ジャックポット')?'（ジャックポット含む）':''}`,'special');floatMoney(`+${g}G`)}
 
-async function selectMoveAction(moveIdx){const p=currentPlayer();if(!p)return;clearMovePreview();state.moveIndex=moveIdx;state.actionIndex=1-moveIdx;const rawMove=state.dice[moveIdx],action=state.dice[1-moveIdx];state.currentAction=action;const mods=isHuman(p)?await modifierModal(p,rawMove,action):cpuMoveMods(p,rawMove,action);let move=mods.tape?3:rawMove;if(mods.cushion)move=Math.max(0,move-1);if(mods.boots)move++;state.moveDirection=mods.back?-1:1;state.currentMove=move;awardDoublesIfNeeded(p);renderAll();
+async function selectMoveAction(moveIdx){const p=currentPlayer();if(!p||state.winner||state.phase!=='afterDice'||state.moveIndex!==null||ui.diceBusy)return;state.phase='choosingMove';clearMovePreview();state.moveIndex=moveIdx;state.actionIndex=1-moveIdx;const rawMove=state.dice[moveIdx],action=state.dice[1-moveIdx];state.currentAction=action;const mods=isHuman(p)?await modifierModal(p,rawMove,action):cpuMoveMods(p,rawMove,action);let move=mods.tape?3:rawMove;if(mods.cushion)move=Math.max(0,move-1);if(mods.boots)move++;state.moveDirection=mods.back?-1:1;state.currentMove=move;awardDoublesIfNeeded(p);renderAll();
   const compass=getSkill(p,'羅針盤');if(compass&&!compass.used){const others=state.players.filter(x=>x!==p&&!compass.usedTargets?.includes(x.id));if(others.length){let targetId=null;if(isHuman(p)){const ch=await choiceModal('羅針盤','通常移動か、他プレイヤーの現在地へワープするか選択。',[{label:`通常移動：${move}マス${state.moveDirection<0?'後退':''}`,value:'move'},...others.map(o=>({label:`🧭 ${o.name} の位置 [${o.pos}] ${BOARD[o.pos].name}`,value:o.id}))],false);if(ch!=='move')targetId=+ch}else if(Math.random()<.22)targetId=others[Math.floor(Math.random()*others.length)].id;if(targetId){const target=state.players.find(x=>x.id===targetId);compass.usedTargets=compass.usedTargets||[];compass.usedTargets.push(targetId);if(compass.usedTargets.length>=state.players.length-1)compass.used=true;p.pos=target.pos;state.movedSteps=0;addLog(`${p.name}：羅針盤で ${target.name} のいる [${p.pos}] ${BOARD[p.pos].name} へワープ。`,'special');renderAll();return resolveArrival(p,action,{warp:true})}}}
   await movePlayer(p,move,state.moveDirection,action);
 }
