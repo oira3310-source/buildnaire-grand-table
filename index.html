@@ -290,6 +290,22 @@ body.ios-portrait-compact #setupOverlay .lobby-actions{margin-top:6px!important;
 #setupOverlay .setup-card,#setupOverlay button,#setupOverlay input,#setupOverlay select{pointer-events:auto!important;position:relative;z-index:2}
 #modalOverlay:not(.show){display:none!important;pointer-events:none!important}
 #orientationGate{display:none!important;pointer-events:none!important}
+
+/* v23: desktop online-entry input hardening */
+#onlineJoinPane input,
+#onlineCreatePane input{
+  pointer-events:auto!important;
+  user-select:text!important;
+  -webkit-user-select:text!important;
+  touch-action:manipulation;
+  position:relative;
+  z-index:5;
+}
+#onlineRoomCode{
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  caret-color:#fff;
+}
 </style>
 </head>
 <body>
@@ -406,7 +422,7 @@ body.ios-portrait-compact #setupOverlay .lobby-actions{margin-top:6px!important;
       </div>
       <div id="onlineJoinPane" class="online-form" hidden>
         <label>名前<input id="onlineJoinName" maxlength="20" value="ゲスト"></label>
-        <label>ルームコード<input id="onlineRoomCode" maxlength="6" placeholder="ABC234"></label>
+        <label>ルームコード<input id="onlineRoomCode" type="text" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABC234"></label>
         <button id="joinRoomBtn" class="hero-btn">参加</button>
       </div>
       <div id="onlineLobby" class="online-lobby" hidden>
@@ -762,7 +778,7 @@ function scheduleOnlineSync(){if(!online.enabled||online.applying||online.syncin
 async function syncOnlineState(force=false){if(!online.enabled||online.applying||online.syncing||(!force&&!localTurn()))return;online.syncing=true;try{const copy=JSON.parse(JSON.stringify(state));const d=await roomApi({action:'sync',code:online.code,token:online.token,version:online.version,state:copy});online.version=d.room.version}catch(e){console.warn('sync',e);await refreshRoom()}finally{online.syncing=false}}
 async function flushOnlineSync(force=false){clearTimeout(syncTimer);let n=0;while(online.syncing&&n++<40)await wait(50);await syncOnlineState(force)}
 async function createOnlineRoom(){if(!sb)return toast('オンライン機能を読み込めませんでした。');onlineEls.createBtn.disabled=true;try{const d=await roomApi({action:'create',name:onlineEls.hostName.value.trim(),max_players:+onlineEls.max.value,goal:+onlineEls.goal.value});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.createBtn.disabled=false}}
-async function joinOnlineRoom(){onlineEls.joinBtn.disabled=true;try{const d=await roomApi({action:'join',code:onlineEls.code.value.trim().toUpperCase(),name:onlineEls.joinName.value.trim()});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.joinBtn.disabled=false}}
+async function joinOnlineRoom(){onlineEls.joinBtn.disabled=true;try{const roomCode=onlineEls.code.value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);onlineEls.code.value=roomCode;const d=await roomApi({action:'join',code:roomCode,name:onlineEls.joinName.value.trim()});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.joinBtn.disabled=false}}
 async function startOnlineGame(){onlineEls.startBtn.disabled=true;try{const d=await roomApi({action:'start',code:online.code,token:online.token});applyRoomUpdate(d.room)}catch(e){toast(e.message);onlineEls.startBtn.disabled=false}}
 async function leaveOnlineRoom(){stopRoomPolling();try{await roomApi({action:'leave',code:online.code,token:online.token})}catch(e){toast(e.message);return}if(online.channel&&sb){try{await sb.removeChannel(online.channel)}catch{}}clearOnlineSession();location.reload()}
 
@@ -777,8 +793,18 @@ document.addEventListener('click',e=>{if(e.target.matches('[data-book]')){closeM
 $('#localTab').onclick=()=>{stopRoomPolling?.();online.enabled=false;$('#localTab').classList.add('active');$('#onlineTab').classList.remove('active');$('#localPane').hidden=false;$('#onlinePane').hidden=true};
 $('#onlineTab').onclick=()=>{$('#onlineTab').classList.add('active');$('#localTab').classList.remove('active');$('#onlinePane').hidden=false;$('#localPane').hidden=true};
 onlineEls.tabCreate.onclick=()=>{onlineEls.createPane.hidden=false;onlineEls.joinPane.hidden=true;onlineEls.tabCreate.classList.add('active');onlineEls.tabJoin.classList.remove('active')};
-onlineEls.tabJoin.onclick=()=>{onlineEls.createPane.hidden=true;onlineEls.joinPane.hidden=false;onlineEls.tabJoin.classList.add('active');onlineEls.tabCreate.classList.remove('active')};
-onlineEls.createBtn.onclick=createOnlineRoom;onlineEls.joinBtn.onclick=joinOnlineRoom;onlineEls.startBtn.onclick=startOnlineGame;onlineEls.leaveBtn.onclick=leaveOnlineRoom;onlineEls.code.oninput=e=>e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
+onlineEls.tabJoin.onclick=()=>{onlineEls.createPane.hidden=true;onlineEls.joinPane.hidden=false;onlineEls.tabJoin.classList.add('active');onlineEls.tabCreate.classList.remove('active');setTimeout(()=>onlineEls.code?.focus(),0)};
+onlineEls.createBtn.onclick=createOnlineRoom;
+onlineEls.joinBtn.onclick=joinOnlineRoom;
+onlineEls.startBtn.onclick=startOnlineGame;
+onlineEls.leaveBtn.onclick=leaveOnlineRoom;
+if(onlineEls.code){
+  let composing=false;
+  onlineEls.code.addEventListener('compositionstart',()=>{composing=true});
+  onlineEls.code.addEventListener('compositionend',e=>{composing=false;e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)});
+  onlineEls.code.addEventListener('input',e=>{if(!composing)e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)});
+  onlineEls.code.addEventListener('paste',()=>setTimeout(()=>{onlineEls.code.value=onlineEls.code.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)},0));
+}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modalOverlay.classList.contains('show'))closeModal()});
 
 
