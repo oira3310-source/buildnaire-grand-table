@@ -9,6 +9,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>ビルドネア — THE GRAND TABLE</title>
 <meta name="description" content="2〜4人で遊べるオンライン対応ファンタジー戦略すごろく。50種のスキルカードで富の頂点を目指せ。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ビルドネア — THE GRAND TABLE">
+<meta property="og:description" content="URLをタップしてブラウザから参加できる、2〜4人対戦型ファンタジーすごろく。">
+<meta property="og:url" content="https://buildnaire-grand-table.vercel.app/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ビルドネア — THE GRAND TABLE">
+<meta name="twitter:description" content="URLをタップしてブラウザから参加できる、2〜4人対戦型ファンタジーすごろく。">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
@@ -50,14 +57,19 @@ linear-gradient(180deg,#3b86b9 0 25%,#497c67 41%,#284d4e 53%,#18323b 100%);overf
 @media(max-width:1250px){.game-grid{grid-template-columns:210px minmax(0,1fr);gap:10px}.players-panel{min-height:620px}.brand{font-size:44px}.tagline{display:none}.board{inset:18px 28px 18px 18px}.right-panel{grid-template-columns:minmax(0,1fr) 190px}.skill-card{width:154px;min-width:154px;height:232px}.skill-art{height:98px}.card-detail .skill-card{width:128px;min-width:128px;height:184px}.card-detail .skill-art{height:68px;font-size:44px}.skills-zone{grid-template-columns:1fr}.all-player-skills{max-height:230px}}
 @media(max-width:980px){body{min-width:0}.app-shell{padding:5px}.topbar{height:62px}.brand{font-size:30px}.brand-sub{font-size:9px}.tagline{display:none}.top-actions{gap:5px}.top-btn,.menu-btn,.turn-badge,.online-badge{padding:5px 7px;border-radius:7px}.top-btn{font-size:11px}.encyclopedia-btn{padding:6px 8px}.menu-btn{width:34px;font-size:17px}.game-grid{grid-template-columns:145px minmax(360px,1fr) 180px;gap:8px}.players-panel{min-height:470px}.player-panel{grid-template-columns:42px 1fr;padding:4px;gap:5px}.avatar-box{height:42px;font-size:25px}.player-meta .name{font-size:12px}.money{font-size:15px}.mini-stats{font-size:9px}.bank-meter{font-size:10px;margin:5px;padding:6px}.board-zone{padding-right:4px}.board-frame{min-height:340px}.board{inset:12px 34px 12px 12px}.tile.right-edge{transform:translateX(-6px) scale(.93)}.tile.right-edge.landmark{transform:translateX(-6px) scale(.96)}.tile-icon{font-size:18px}.tile-name{font-size:8px}.landmark .tile-name{font-size:9px;bottom:2px}.tile[data-idx="6"] .tile-name,.tile[data-idx="12"] .tile-name{bottom:3px;font-size:9px}.action-deck{grid-template-columns:120px 1fr;min-height:112px;padding:6px}.die{width:52px;height:52px;font-size:28px;border-radius:12px}.action-main{padding:5px 8px}.phase-text{font-size:14px}.action-hint{font-size:10px;margin:2px 0 6px}.move-preview{gap:5px;margin:2px 0 7px}.move-chip{font-size:10px;padding:6px 7px}.primary-actions button,.skill-actions button{padding:7px 8px;font-size:10px}.right-panel{padding-left:2px;gap:6px}.game-log{height:190px}.log-list{height:150px;font-size:10px;padding:5px}.detail-card-wrap{min-height:174px}.card-detail{min-height:136px;padding:4px}.card-detail .skill-card{width:106px;min-width:106px;height:146px;padding:22px 4px 4px}.card-detail .skill-art{height:48px;font-size:32px}.card-detail .skill-name{font-size:9px;margin:2px 0}.card-detail .skill-effect{height:27px;font-size:7px;padding:2px}.card-detail .skill-price{font-size:10px;margin-top:2px}.card-detail .rarity-badge{width:22px;height:22px;font-size:13px;left:4px;top:4px}.card-detail .cat-badge{width:20px;height:20px;right:4px;top:4px}.panel-title{font-size:11px;padding:6px 8px}.skill-card{width:130px;min-width:130px;height:194px}.skill-art{height:72px;font-size:44px}.skill-effect{height:34px;font-size:8px}.skills-zone{grid-template-columns:1fr;gap:6px;margin-top:8px}.player-skill-row{grid-template-columns:105px minmax(0,1fr);padding:4px}.row-info{font-size:10px}.dock-head{padding:5px 8px;min-height:32px;font-size:11px}.current-skills{min-height:100px;padding:6px}.mini-card{width:64px;min-width:64px;height:84px}.mini-card .skill-art{height:34px;font-size:24px}.modal.ency-modal{width:99vw;max-height:95vh;padding:10px}.modal-title{font-size:18px}.rarity-filter{grid-template-columns:repeat(5,minmax(42px,1fr))}.category-filter{grid-template-columns:repeat(4,minmax(62px,1fr))}.ency-tools button{padding:7px 6px;min-height:34px;font-size:11px}.ency-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.ency-item{padding:7px;font-size:10px}.ency-item .meta{font-size:9px}.modal-actions button,.choice,.shop-card,.tab{padding:8px 9px;font-size:11px}}
 .orientation-gate{display:none;position:fixed;inset:0;z-index:1000;background:radial-gradient(circle at 50% 35%,#22364eee,#05080cf7 72%);align-items:center;justify-content:center;padding:22px;text-align:center}.orientation-card{width:min(430px,92vw);border:1px solid #b98b3f;border-radius:16px;background:linear-gradient(180deg,#101a27f5,#080d14fa);box-shadow:0 18px 55px #000c,inset 0 0 0 1px #ffe59c22;padding:24px 18px}.orientation-icon{font-size:58px;line-height:1;margin-bottom:12px;animation:turnPhone 1.8s ease-in-out infinite}.orientation-card h2{margin:0 0 8px;color:#f3d27a;font-size:24px}.orientation-card p{margin:0 0 14px;color:#d6dde7;line-height:1.6;font-size:13px}.orientation-card button{border:1px solid #ffe09a;background:linear-gradient(180deg,#ffe99c,#d6a43d 55%,#8d5c1a);color:#231607;font-weight:900;border-radius:10px;padding:11px 18px;box-shadow:0 5px 16px #0008}.orientation-note{display:block;margin-top:10px;color:#9fa9b5;font-size:11px}@keyframes turnPhone{0%,100%{transform:rotate(0deg)}45%,65%{transform:rotate(90deg)}}@media(orientation:portrait) and (max-width:900px) and (pointer:coarse){.orientation-gate{display:flex}}@media(orientation:landscape){.orientation-gate{display:none!important}}
-/* iPhone Safari fallback: Safari may refuse ScreenOrientation.lock(). */
-body.ios-virtual-landscape{overflow:hidden;width:100vw;height:100vh}
-body.ios-virtual-landscape #app{position:fixed;left:50%;top:50%;width:100vh;height:100vw;min-height:0;max-width:none;overflow:auto;overscroll-behavior:none;-webkit-overflow-scrolling:touch;transform:translate(-50%,-50%) rotate(90deg);transform-origin:center center;padding-top:max(5px,env(safe-area-inset-left));padding-right:max(5px,env(safe-area-inset-bottom));padding-bottom:max(8px,env(safe-area-inset-right));padding-left:max(5px,env(safe-area-inset-top))}
+/* iPhone Safari fallback:
+   Safari may refuse ScreenOrientation.lock(). In portrait we rotate only the
+   game surface so the player still gets an automatic landscape-style game. */
+body.ios-virtual-landscape{overflow:auto;width:auto;height:auto}
+body.ios-virtual-landscape #app{position:relative;left:auto;top:auto;width:auto;height:auto;min-height:0;max-width:none;overflow:visible;transform:none;transform-origin:center center;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0}
 body.ios-virtual-landscape .orientation-gate{display:none!important}
 body.ios-virtual-landscape .topbar{height:56px}
 body.ios-virtual-landscape .brand{font-size:28px}
 body.ios-virtual-landscape .brand-sub{font-size:8px}
-body.ios-virtual-landscape .top-btn,body.ios-virtual-landscape .menu-btn,body.ios-virtual-landscape .turn-badge,body.ios-virtual-landscape .online-badge{padding:5px 7px}
+body.ios-virtual-landscape .top-btn,
+body.ios-virtual-landscape .menu-btn,
+body.ios-virtual-landscape .turn-badge,
+body.ios-virtual-landscape .online-badge{padding:5px 7px}
 body.ios-virtual-landscape .game-grid{grid-template-columns:140px minmax(350px,1fr) 170px;gap:7px}
 body.ios-virtual-landscape .players-panel{min-height:450px}
 body.ios-virtual-landscape .board-frame{min-height:330px}
@@ -69,45 +81,128 @@ body.ios-virtual-landscape .log-list{height:146px}
 body.ios-virtual-landscape .detail-card-wrap{min-height:168px}
 
 
-/* v14 iPhone compact layout */
-body.ios-virtual-landscape #setupOverlay,body.ios-virtual-landscape #modalOverlay{inset:auto!important;left:50%!important;top:50%!important;width:100vh!important;height:100vw!important;transform:translate(-50%,-50%) rotate(90deg)!important;transform-origin:center!important;padding:6px!important}
-body.ios-virtual-landscape #setupOverlay .setup-card,body.ios-virtual-landscape #modalOverlay .modal{width:min(680px,calc(100% - 10px))!important;max-height:calc(100% - 10px)!important;overflow:auto!important}
+
+
+/* v14: iPhone compact landscape layout -------------------------------------------------- */
+body.ios-virtual-landscape #setupOverlay,
+body.ios-virtual-landscape #modalOverlay{
+  inset:auto!important;
+  left:50%!important;
+  top:50%!important;
+  width:100vh!important;
+  height:100vw!important;
+  transform:translate(-50%,-50%) rotate(90deg)!important;
+  transform-origin:center center!important;
+  padding:6px!important;
+}
+body.ios-virtual-landscape #setupOverlay .setup-card,
+body.ios-virtual-landscape #modalOverlay .modal{
+  width:min(680px,calc(100% - 10px))!important;
+  max-height:calc(100% - 10px)!important;
+  overflow:auto!important;
+}
 body.ios-virtual-landscape #setupOverlay .setup-card{padding:9px 12px!important}
 body.ios-virtual-landscape #setupOverlay .setup-title{font-size:24px!important;line-height:1.05}
-body.ios-virtual-landscape #setupOverlay .setup-title small{font-size:8px!important}
-body.ios-virtual-landscape #setupOverlay .setup-card>p{font-size:10px!important;line-height:1.2;margin:4px 0 6px!important}
-body.ios-virtual-landscape #setupOverlay .setup-tabs,body.ios-virtual-landscape #setupOverlay .online-tabs{gap:5px!important;margin:5px 0!important}
+body.ios-virtual-landscape #setupOverlay .setup-title small{font-size:8px!important;margin-top:2px}
+body.ios-virtual-landscape #setupOverlay .setup-card>p{font-size:10px!important;line-height:1.25;margin:4px 0 6px!important}
+body.ios-virtual-landscape #setupOverlay .setup-tabs,
+body.ios-virtual-landscape #setupOverlay .online-tabs{gap:5px!important;margin:5px 0!important}
 body.ios-virtual-landscape #setupOverlay .tab{padding:6px 8px!important;font-size:10px!important}
-body.ios-virtual-landscape #setupOverlay .setup-pane,body.ios-virtual-landscape #setupOverlay .online-form{gap:6px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
-body.ios-virtual-landscape #setupOverlay label{font-size:10px!important;gap:2px!important}
-body.ios-virtual-landscape #setupOverlay select,body.ios-virtual-landscape #setupOverlay input{padding:6px 7px!important;min-height:30px!important;font-size:11px!important}
+body.ios-virtual-landscape #setupOverlay .setup-pane,
+body.ios-virtual-landscape #setupOverlay .online-form{gap:6px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+body.ios-virtual-landscape #setupOverlay .setup-pane label,
+body.ios-virtual-landscape #setupOverlay .online-form label{font-size:10px!important;gap:2px!important}
+body.ios-virtual-landscape #setupOverlay select,
+body.ios-virtual-landscape #setupOverlay input{padding:6px 7px!important;min-height:30px!important;font-size:11px!important}
 body.ios-virtual-landscape #setupOverlay .hero-btn{padding:7px 10px!important;font-size:12px!important;min-height:32px!important}
 body.ios-virtual-landscape #setupOverlay .room-code{font-size:14px!important;margin:5px!important}
 body.ios-virtual-landscape #setupOverlay .room-code strong{font-size:20px!important}
 body.ios-virtual-landscape #setupOverlay .lobby-player{padding:5px!important;font-size:10px!important}
+body.ios-virtual-landscape #setupOverlay .lobby-actions{margin-top:5px!important;gap:5px!important}
+
 body.ios-virtual-landscape #app{padding:4px!important}
 body.ios-virtual-landscape .topbar{height:42px!important;min-height:42px!important;padding:1px 2px 3px!important;align-items:center!important}
-body.ios-virtual-landscape .brand-wrap{display:block!important}body.ios-virtual-landscape .brand{font-size:23px!important;line-height:1!important}body.ios-virtual-landscape .brand-sub,body.ios-virtual-landscape .tagline{display:none!important}
-body.ios-virtual-landscape .top-actions{gap:3px!important;flex-wrap:nowrap!important}body.ios-virtual-landscape .top-btn,body.ios-virtual-landscape .menu-btn,body.ios-virtual-landscape .turn-badge,body.ios-virtual-landscape .online-badge{padding:4px 6px!important;font-size:9px!important;border-radius:6px!important;white-space:nowrap!important}
+body.ios-virtual-landscape .brand-wrap{display:block!important}
+body.ios-virtual-landscape .brand{font-size:23px!important;line-height:1!important}
+body.ios-virtual-landscape .brand-sub,
+body.ios-virtual-landscape .tagline{display:none!important}
+body.ios-virtual-landscape .top-actions{gap:3px!important;flex-wrap:nowrap!important}
+body.ios-virtual-landscape .top-btn,
+body.ios-virtual-landscape .menu-btn,
+body.ios-virtual-landscape .turn-badge,
+body.ios-virtual-landscape .online-badge{padding:4px 6px!important;font-size:9px!important;border-radius:6px!important;white-space:nowrap!important}
 body.ios-virtual-landscape .menu-btn{width:28px!important}
 body.ios-virtual-landscape .game-grid{grid-template-columns:108px minmax(0,1fr)!important;gap:5px!important;align-items:start!important}
 body.ios-virtual-landscape .players-panel{grid-column:1!important;grid-row:1 / span 2!important;min-height:0!important;height:326px!important;overflow:auto!important}
-body.ios-virtual-landscape .players-list{padding:4px!important;gap:4px!important}body.ios-virtual-landscape .player-panel{grid-template-columns:31px 1fr!important;padding:3px!important;gap:4px!important}body.ios-virtual-landscape .avatar-box{height:31px!important;font-size:19px!important}body.ios-virtual-landscape .player-meta .name{font-size:9px!important}body.ios-virtual-landscape .money{font-size:11px!important}body.ios-virtual-landscape .mini-stats{font-size:7px!important;margin-top:2px!important}body.ios-virtual-landscape .bank-meter{margin:4px!important;padding:4px!important;font-size:8px!important;gap:3px!important}
+body.ios-virtual-landscape .players-list{padding:4px!important;gap:4px!important}
+body.ios-virtual-landscape .player-panel{grid-template-columns:31px 1fr!important;padding:3px!important;gap:4px!important}
+body.ios-virtual-landscape .avatar-box{height:31px!important;font-size:19px!important}
+body.ios-virtual-landscape .player-meta .name{font-size:9px!important}
+body.ios-virtual-landscape .money{font-size:11px!important}
+body.ios-virtual-landscape .mini-stats{font-size:7px!important;margin-top:2px!important;gap:1px!important}
+body.ios-virtual-landscape .bank-meter{margin:4px!important;padding:4px!important;font-size:8px!important;gap:3px!important}
 body.ios-virtual-landscape .board-zone{grid-column:2!important;grid-row:1!important;padding-right:0!important;min-width:0!important}
 body.ios-virtual-landscape .board-frame{height:224px!important;min-height:0!important;aspect-ratio:auto!important;border-radius:10px!important}
-body.ios-virtual-landscape .board{inset:7px 23px 7px 7px!important}body.ios-virtual-landscape .tile{margin:1px!important;border-radius:4px!important}body.ios-virtual-landscape .tile-icon{font-size:15px!important}body.ios-virtual-landscape .tile-name{font-size:6px!important;bottom:1px!important}body.ios-virtual-landscape .tile-index{font-size:6px!important;top:1px!important;left:2px!important}body.ios-virtual-landscape .landmark .tile-name{font-size:7px!important;bottom:1px!important;padding:1px 2px!important}body.ios-virtual-landscape .token{width:22px!important;height:22px!important;font-size:14px!important;border-width:2px!important}
-body.ios-virtual-landscape .action-deck{margin-top:4px!important;grid-template-columns:92px minmax(0,1fr)!important;min-height:92px!important;padding:4px!important}body.ios-virtual-landscape .dice-stage{gap:7px!important}body.ios-virtual-landscape .die{width:40px!important;height:40px!important;font-size:22px!important;border-radius:9px!important}body.ios-virtual-landscape .action-main{padding:3px 6px!important}body.ios-virtual-landscape .phase-text{font-size:11px!important}body.ios-virtual-landscape .action-hint{font-size:8px!important;margin:1px 0 3px!important}body.ios-virtual-landscape .move-chip{font-size:7px!important;padding:3px 4px!important}body.ios-virtual-landscape .primary-actions button,body.ios-virtual-landscape .skill-actions button{padding:4px 5px!important;font-size:8px!important}
+body.ios-virtual-landscape .board{inset:7px 23px 7px 7px!important}
+body.ios-virtual-landscape .tile{margin:1px!important;border-radius:4px!important}
+body.ios-virtual-landscape .tile-icon{font-size:15px!important}
+body.ios-virtual-landscape .tile-name{font-size:6px!important;bottom:1px!important}
+body.ios-virtual-landscape .tile-index{font-size:6px!important;top:1px!important;left:2px!important}
+body.ios-virtual-landscape .landmark .tile-name{font-size:7px!important;bottom:1px!important;padding:1px 2px!important}
+body.ios-virtual-landscape .token{width:22px!important;height:22px!important;font-size:14px!important;border-width:2px!important}
+body.ios-virtual-landscape .tile-preview-note{font-size:6px!important;padding:1px 3px!important;top:2px!important}
+body.ios-virtual-landscape .action-deck{margin-top:4px!important;grid-template-columns:92px minmax(0,1fr)!important;min-height:92px!important;padding:4px!important}
+body.ios-virtual-landscape .dice-stage{gap:7px!important}
+body.ios-virtual-landscape .die{width:40px!important;height:40px!important;font-size:22px!important;border-radius:9px!important}
+body.ios-virtual-landscape .action-main{padding:3px 6px!important;min-width:0!important}
+body.ios-virtual-landscape .phase-text{font-size:11px!important}
+body.ios-virtual-landscape .action-hint{font-size:8px!important;margin:1px 0 3px!important}
+body.ios-virtual-landscape .move-preview{gap:3px!important;margin:1px 0 4px!important}
+body.ios-virtual-landscape .move-chip{font-size:7px!important;padding:3px 4px!important}
+body.ios-virtual-landscape .primary-actions,
+body.ios-virtual-landscape .skill-actions{gap:3px!important}
+body.ios-virtual-landscape .primary-actions button,
+body.ios-virtual-landscape .skill-actions button{padding:4px 5px!important;font-size:8px!important;border-radius:5px!important}
 body.ios-virtual-landscape .right-panel{grid-column:2!important;grid-row:2!important;display:grid!important;grid-template-columns:minmax(0,1fr) 138px!important;gap:5px!important;padding-left:0!important;margin-top:5px!important;position:relative!important;z-index:1!important}
-body.ios-virtual-landscape .game-log{height:116px!important}.log-list{max-width:100%}body.ios-virtual-landscape .log-list{height:89px!important;font-size:7px!important;padding:3px!important}body.ios-virtual-landscape .detail-card-wrap{min-height:116px!important;height:116px!important}body.ios-virtual-landscape .card-detail{min-height:88px!important;height:88px!important;padding:2px!important;overflow:hidden!important}body.ios-virtual-landscape .panel-title{font-size:8px!important;padding:4px 5px!important}
+body.ios-virtual-landscape .game-log{height:116px!important;min-height:116px!important}
+body.ios-virtual-landscape .log-list{height:89px!important;font-size:7px!important;padding:3px!important;gap:2px!important}
+body.ios-virtual-landscape .log-entry{padding:2px 3px!important}
+body.ios-virtual-landscape .detail-card-wrap{min-height:116px!important;height:116px!important}
+body.ios-virtual-landscape .card-detail{min-height:88px!important;height:88px!important;padding:2px!important;overflow:hidden!important}
+body.ios-virtual-landscape .card-detail .skill-card{width:72px!important;min-width:72px!important;height:94px!important;padding:15px 2px 2px!important}
+body.ios-virtual-landscape .card-detail .skill-art{height:28px!important;font-size:20px!important}
+body.ios-virtual-landscape .card-detail .skill-name{font-size:6px!important;margin:1px 0!important}
+body.ios-virtual-landscape .card-detail .skill-effect{height:18px!important;font-size:5px!important;padding:1px!important}
+body.ios-virtual-landscape .card-detail .skill-price{font-size:7px!important;margin-top:1px!important}
+body.ios-virtual-landscape .card-detail .rarity-badge{width:15px!important;height:15px!important;font-size:8px!important;left:2px!important;top:2px!important}
+body.ios-virtual-landscape .card-detail .cat-badge{width:14px!important;height:14px!important;right:2px!important;top:2px!important}
+body.ios-virtual-landscape .panel-title{font-size:8px!important;padding:4px 5px!important}
 body.ios-virtual-landscape .skills-zone{grid-template-columns:1fr!important;gap:5px!important;margin-top:6px!important}
+body.ios-virtual-landscape .skills-dock,
+body.ios-virtual-landscape .all-skills-panel{min-height:0!important}
+body.ios-virtual-landscape .dock-head{min-height:26px!important;padding:4px 6px!important;font-size:8px!important}
+body.ios-virtual-landscape .current-skills{min-height:72px!important;padding:4px!important}
+body.ios-virtual-landscape .all-player-skills{max-height:150px!important;padding:4px!important}
+
+/* Same compact layout when an iPhone is physically rotated to landscape. */
 @media (orientation:landscape) and (max-height:500px) and (pointer:coarse){
- body{overflow:auto!important}.app-shell{padding:4px!important}.topbar{height:42px!important;min-height:42px!important;padding:1px 2px 3px!important;align-items:center!important}.brand-wrap{display:block!important}.brand{font-size:23px!important;line-height:1!important}.brand-sub,.tagline{display:none!important}.top-actions{gap:3px!important;flex-wrap:nowrap!important}.top-btn,.menu-btn,.turn-badge,.online-badge{padding:4px 6px!important;font-size:9px!important;white-space:nowrap!important}.menu-btn{width:28px!important}
- .game-grid{grid-template-columns:108px minmax(0,1fr)!important;gap:5px!important}.players-panel{grid-column:1!important;grid-row:1 / span 2!important;min-height:0!important;height:326px!important;overflow:auto!important}.players-list{padding:4px!important;gap:4px!important}.player-panel{grid-template-columns:31px 1fr!important;padding:3px!important;gap:4px!important}.avatar-box{height:31px!important;font-size:19px!important}.player-meta .name{font-size:9px!important}.money{font-size:11px!important}.mini-stats{font-size:7px!important;margin-top:2px!important}.bank-meter{margin:4px!important;padding:4px!important;font-size:8px!important}
- .board-zone{grid-column:2!important;grid-row:1!important;padding-right:0!important}.board-frame{height:224px!important;min-height:0!important;aspect-ratio:auto!important}.board{inset:7px 23px 7px 7px!important}.tile{margin:1px!important}.tile-icon{font-size:15px!important}.tile-name{font-size:6px!important}.tile-index{font-size:6px!important}.landmark .tile-name{font-size:7px!important}.token{width:22px!important;height:22px!important;font-size:14px!important}
- .action-deck{margin-top:4px!important;grid-template-columns:92px minmax(0,1fr)!important;min-height:92px!important;padding:4px!important}.dice-stage{gap:7px!important}.die{width:40px!important;height:40px!important;font-size:22px!important}.action-main{padding:3px 6px!important}.phase-text{font-size:11px!important}.action-hint{font-size:8px!important;margin:1px 0 3px!important}.move-chip{font-size:7px!important;padding:3px 4px!important}.primary-actions button,.skill-actions button{padding:4px 5px!important;font-size:8px!important}
- .right-panel{grid-column:2!important;grid-row:2!important;display:grid!important;grid-template-columns:minmax(0,1fr) 138px!important;gap:5px!important;padding-left:0!important;margin-top:5px!important;position:relative!important;z-index:1!important}.game-log{height:116px!important}.log-list{height:89px!important;font-size:7px!important;padding:3px!important}.detail-card-wrap{min-height:116px!important;height:116px!important}.card-detail{min-height:88px!important;height:88px!important;padding:2px!important;overflow:hidden!important}.panel-title{font-size:8px!important;padding:4px 5px!important}.skills-zone{grid-template-columns:1fr!important;gap:5px!important;margin-top:6px!important}
- #setupOverlay{padding:6px!important;overflow:auto!important}#setupOverlay .setup-card{width:min(680px,calc(100% - 10px))!important;max-height:calc(100svh - 10px)!important;overflow:auto!important;padding:9px 12px!important}#setupOverlay .setup-title{font-size:24px!important;line-height:1.05}#setupOverlay .setup-title small{font-size:8px!important}#setupOverlay .setup-card>p{font-size:10px!important;line-height:1.2;margin:4px 0 6px!important}#setupOverlay .setup-tabs,#setupOverlay .online-tabs{gap:5px!important;margin:5px 0!important}#setupOverlay .tab{padding:6px 8px!important;font-size:10px!important}#setupOverlay .setup-pane,#setupOverlay .online-form{gap:6px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}#setupOverlay label{font-size:10px!important}#setupOverlay select,#setupOverlay input{padding:6px 7px!important;min-height:30px!important;font-size:11px!important}#setupOverlay .hero-btn{padding:7px 10px!important;font-size:12px!important;min-height:32px!important}#setupOverlay .room-code{font-size:14px!important;margin:5px!important}#setupOverlay .room-code strong{font-size:20px!important}
+  body{overflow:auto!important}
+  .app-shell{padding:4px!important}
+  .topbar{height:42px!important;min-height:42px!important;padding:1px 2px 3px!important;align-items:center!important}
+  .brand-wrap{display:block!important}.brand{font-size:23px!important;line-height:1!important}.brand-sub,.tagline{display:none!important}
+  .top-actions{gap:3px!important;flex-wrap:nowrap!important}.top-btn,.menu-btn,.turn-badge,.online-badge{padding:4px 6px!important;font-size:9px!important;border-radius:6px!important;white-space:nowrap!important}.menu-btn{width:28px!important}
+  .game-grid{grid-template-columns:108px minmax(0,1fr)!important;gap:5px!important;align-items:start!important}
+  .players-panel{grid-column:1!important;grid-row:1 / span 2!important;min-height:0!important;height:326px!important;overflow:auto!important}
+  .players-list{padding:4px!important;gap:4px!important}.player-panel{grid-template-columns:31px 1fr!important;padding:3px!important;gap:4px!important}.avatar-box{height:31px!important;font-size:19px!important}.player-meta .name{font-size:9px!important}.money{font-size:11px!important}.mini-stats{font-size:7px!important;margin-top:2px!important;gap:1px!important}.bank-meter{margin:4px!important;padding:4px!important;font-size:8px!important;gap:3px!important}
+  .board-zone{grid-column:2!important;grid-row:1!important;padding-right:0!important;min-width:0!important}.board-frame{height:224px!important;min-height:0!important;aspect-ratio:auto!important;border-radius:10px!important}.board{inset:7px 23px 7px 7px!important}.tile{margin:1px!important;border-radius:4px!important}.tile-icon{font-size:15px!important}.tile-name{font-size:6px!important;bottom:1px!important}.tile-index{font-size:6px!important;top:1px!important;left:2px!important}.landmark .tile-name{font-size:7px!important;bottom:1px!important;padding:1px 2px!important}.token{width:22px!important;height:22px!important;font-size:14px!important;border-width:2px!important}.tile-preview-note{font-size:6px!important;padding:1px 3px!important;top:2px!important}
+  .action-deck{margin-top:4px!important;grid-template-columns:92px minmax(0,1fr)!important;min-height:92px!important;padding:4px!important}.dice-stage{gap:7px!important}.die{width:40px!important;height:40px!important;font-size:22px!important;border-radius:9px!important}.action-main{padding:3px 6px!important;min-width:0!important}.phase-text{font-size:11px!important}.action-hint{font-size:8px!important;margin:1px 0 3px!important}.move-preview{gap:3px!important;margin:1px 0 4px!important}.move-chip{font-size:7px!important;padding:3px 4px!important}.primary-actions,.skill-actions{gap:3px!important}.primary-actions button,.skill-actions button{padding:4px 5px!important;font-size:8px!important;border-radius:5px!important}
+  .right-panel{grid-column:2!important;grid-row:2!important;display:grid!important;grid-template-columns:minmax(0,1fr) 138px!important;gap:5px!important;padding-left:0!important;margin-top:5px!important;position:relative!important;z-index:1!important}.game-log{height:116px!important;min-height:116px!important}.log-list{height:89px!important;font-size:7px!important;padding:3px!important;gap:2px!important}.log-entry{padding:2px 3px!important}.detail-card-wrap{min-height:116px!important;height:116px!important}.card-detail{min-height:88px!important;height:88px!important;padding:2px!important;overflow:hidden!important}.card-detail .skill-card{width:72px!important;min-width:72px!important;height:94px!important;padding:15px 2px 2px!important}.card-detail .skill-art{height:28px!important;font-size:20px!important}.card-detail .skill-name{font-size:6px!important;margin:1px 0!important}.card-detail .skill-effect{height:18px!important;font-size:5px!important;padding:1px!important}.card-detail .skill-price{font-size:7px!important;margin-top:1px!important}.card-detail .rarity-badge{width:15px!important;height:15px!important;font-size:8px!important;left:2px!important;top:2px!important}.card-detail .cat-badge{width:14px!important;height:14px!important;right:2px!important;top:2px!important}.panel-title{font-size:8px!important;padding:4px 5px!important}
+  .skills-zone{grid-template-columns:1fr!important;gap:5px!important;margin-top:6px!important}.dock-head{min-height:26px!important;padding:4px 6px!important;font-size:8px!important}.current-skills{min-height:72px!important;padding:4px!important}.all-player-skills{max-height:150px!important;padding:4px!important}
+  #setupOverlay{padding:6px!important;align-items:center!important;overflow:auto!important}
+  #setupOverlay .setup-card{width:min(680px,calc(100% - 10px))!important;max-height:calc(100svh - 10px)!important;overflow:auto!important;padding:9px 12px!important}
+  #setupOverlay .setup-title{font-size:24px!important;line-height:1.05}#setupOverlay .setup-title small{font-size:8px!important;margin-top:2px}#setupOverlay .setup-card>p{font-size:10px!important;line-height:1.25;margin:4px 0 6px!important}#setupOverlay .setup-tabs,#setupOverlay .online-tabs{gap:5px!important;margin:5px 0!important}#setupOverlay .tab{padding:6px 8px!important;font-size:10px!important}#setupOverlay .setup-pane,#setupOverlay .online-form{gap:6px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}#setupOverlay .setup-pane label,#setupOverlay .online-form label{font-size:10px!important;gap:2px!important}#setupOverlay select,#setupOverlay input{padding:6px 7px!important;min-height:30px!important;font-size:11px!important}#setupOverlay .hero-btn{padding:7px 10px!important;font-size:12px!important;min-height:32px!important}#setupOverlay .room-code{font-size:14px!important;margin:5px!important}#setupOverlay .room-code strong{font-size:20px!important}#setupOverlay .lobby-player{padding:5px!important;font-size:10px!important}#setupOverlay .lobby-actions{margin-top:5px!important;gap:5px!important}
 }
+
 </style>
 </head>
 <body>
@@ -241,8 +336,8 @@ body.ios-virtual-landscape .skills-zone{grid-template-columns:1fr!important;gap:
   <div class="orientation-card">
     <div class="orientation-icon">📱</div>
     <h2>横画面でプレイ</h2>
-    <p>スマホでは横画面になるよう自動で切り替えを試みます。切り替わらない場合は下のボタンをタップしてください。</p>
-    <button id="landscapeBtn" type="button">横画面で開始</button>
+    <p>スマホでは横画面でのプレイに最適化しています。iPhoneでは自動回転に制限があるため、端末を横向きにしてください。</p>
+    <button id="landscapeBtn" type="button">横向きにして再表示</button>
     <span class="orientation-note">iPhoneのSafariなど、Webページから画面向きを強制できない端末では本体を横向きにしてください。</span>
   </div>
 </div>
@@ -536,20 +631,69 @@ onlineEls.tabJoin.onclick=()=>{onlineEls.createPane.hidden=true;onlineEls.joinPa
 onlineEls.createBtn.onclick=createOnlineRoom;onlineEls.joinBtn.onclick=joinOnlineRoom;onlineEls.startBtn.onclick=startOnlineGame;onlineEls.leaveBtn.onclick=leaveOnlineRoom;onlineEls.code.oninput=e=>e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modalOverlay.classList.contains('show'))closeModal()});
 
+
 const orientationGate=$('#orientationGate');
 const landscapeBtn=$('#landscapeBtn');
-function isIOSDevice(){return /iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)}
-function isMobileLandscapeTarget(){return matchMedia('(pointer:coarse)').matches&&Math.min(screen.width,screen.height)<=900}
-function isPortraitNow(){return matchMedia('(orientation:portrait)').matches}
-function setIOSVirtualLandscape(enabled){document.body.classList.toggle('ios-virtual-landscape',!!enabled)}
-async function requestLandscape({fullscreen=false}={}){if(!isMobileLandscapeTarget())return true;try{if(fullscreen&&!document.fullscreenElement&&document.documentElement.requestFullscreen){await document.documentElement.requestFullscreen({navigationUI:'hide'})}}catch(e){console.debug('fullscreen unavailable',e)}try{if(screen.orientation&&typeof screen.orientation.lock==='function'){await screen.orientation.lock('landscape');return true}}catch(e){console.debug('orientation lock unavailable',e)}return !isPortraitNow()}
-function syncOrientationMode(){if(!isMobileLandscapeTarget()){setIOSVirtualLandscape(false);if(orientationGate)orientationGate.style.display='none';return}if(!isPortraitNow()){setIOSVirtualLandscape(false);if(orientationGate)orientationGate.style.display='none';return}if(isIOSDevice()){setIOSVirtualLandscape(true);if(orientationGate)orientationGate.style.display='none';return}setIOSVirtualLandscape(false);if(orientationGate)orientationGate.style.display='flex'}
-async function autoLandscape(){if(!isMobileLandscapeTarget())return;await requestLandscape({fullscreen:false});setTimeout(syncOrientationMode,120)}
-if(landscapeBtn)landscapeBtn.addEventListener('click',async()=>{await requestLandscape({fullscreen:true});syncOrientationMode()});
+
+function isIOSDevice(){
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+}
+function isMobileLandscapeTarget(){
+  return matchMedia('(pointer:coarse)').matches && Math.min(screen.width,screen.height)<=900;
+}
+function isPortraitNow(){
+  return matchMedia('(orientation:portrait)').matches;
+}
+function setIOSVirtualLandscape(enabled){
+  document.body.classList.toggle('ios-virtual-landscape', !!enabled);
+}
+async function requestLandscape({fullscreen=false}={}){
+  if(!isMobileLandscapeTarget())return true;
+  try{
+    if(fullscreen && !document.fullscreenElement && document.documentElement.requestFullscreen){
+      await document.documentElement.requestFullscreen({navigationUI:'hide'});
+    }
+  }catch(e){console.debug('fullscreen unavailable',e)}
+  try{
+    if(screen.orientation && typeof screen.orientation.lock==='function'){
+      await screen.orientation.lock('landscape');
+      return true;
+    }
+  }catch(e){console.debug('orientation lock unavailable',e)}
+  return !isPortraitNow();
+}
+function syncOrientationMode(){
+  if(!isMobileLandscapeTarget()){
+    setIOSVirtualLandscape(false);
+    if(orientationGate)orientationGate.style.display='none';
+    return;
+  }
+  if(!isPortraitNow()){
+    setIOSVirtualLandscape(false);
+    if(orientationGate)orientationGate.style.display='none';
+    return;
+  }
+  // iPhone/iOS Safari cannot reliably rotate the browser view itself.
+  // In portrait, block play and ask the user to rotate the device physically.
+  setIOSVirtualLandscape(false);
+  if(orientationGate)orientationGate.style.display='flex';
+}
+async function autoLandscape(){
+  if(!isMobileLandscapeTarget())return;
+  await requestLandscape({fullscreen:false});
+  setTimeout(syncOrientationMode,120);
+}
+if(landscapeBtn)landscapeBtn.addEventListener('click',async()=>{
+  await requestLandscape({fullscreen:true});
+  syncOrientationMode();
+});
 window.addEventListener('orientationchange',()=>setTimeout(syncOrientationMode,160));
 window.addEventListener('resize',()=>setTimeout(syncOrientationMode,80));
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)autoLandscape()});
-document.addEventListener('pointerdown',function firstLandscapeGesture(){requestLandscape({fullscreen:true}).finally(()=>setTimeout(syncOrientationMode,120))},{once:true,capture:true});
+document.addEventListener('pointerdown',function firstLandscapeGesture(){
+  requestLandscape({fullscreen:true}).finally(()=>setTimeout(syncOrientationMode,120));
+},{once:true,capture:true});
 setTimeout(autoLandscape,80);
 setTimeout(syncOrientationMode,160);
 
