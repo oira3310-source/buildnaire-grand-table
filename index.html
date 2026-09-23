@@ -9,13 +9,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>ビルドネア — THE GRAND TABLE</title>
 <meta name="description" content="2〜4人で遊べるオンライン対応ファンタジー戦略すごろく。50種のスキルカードで富の頂点を目指せ。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ビルドネア — THE GRAND TABLE">
-<meta property="og:description" content="URLをタップしてブラウザから参加できる、2〜4人対戦型ファンタジーすごろく。">
-<meta property="og:url" content="https://buildnaire-grand-table.vercel.app/">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ビルドネア — THE GRAND TABLE">
-<meta name="twitter:description" content="URLをタップしてブラウザから参加できる、2〜4人対戦型ファンタジーすごろく。">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
@@ -204,7 +197,8 @@ body.ios-virtual-landscape .all-player-skills{max-height:150px!important;padding
 }
 
 
-/* v16: iPhone/in-app browser safe portrait mode */
+
+/* v16: iPhone / in-app browser safe mode -------------------------------------------- */
 body.ios-portrait-compact{overflow:auto!important}
 body.ios-portrait-compact .orientation-gate{display:none!important}body.ios-portrait-compact .overlay:not(.show){display:none!important}body.ios-portrait-compact .overlay.show{display:grid!important}
 body.ios-portrait-compact .app-shell{padding:4px!important;min-height:100svh!important}
@@ -215,6 +209,7 @@ body.ios-portrait-compact .brand-sub,body.ios-portrait-compact .tagline{display:
 body.ios-portrait-compact .top-actions{gap:3px!important;flex-wrap:nowrap!important;min-width:0!important}
 body.ios-portrait-compact .top-btn,body.ios-portrait-compact .menu-btn,body.ios-portrait-compact .turn-badge,body.ios-portrait-compact .online-badge{padding:4px 5px!important;font-size:8px!important;border-radius:6px!important;white-space:nowrap!important}
 body.ios-portrait-compact .menu-btn{width:27px!important}
+
 body.ios-portrait-compact .game-grid{display:grid!important;grid-template-columns:1fr!important;gap:5px!important}
 body.ios-portrait-compact .players-panel{grid-column:1!important;grid-row:auto!important;min-height:0!important;height:auto!important;overflow:visible!important}
 body.ios-portrait-compact .players-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important;padding:4px!important}
@@ -224,6 +219,8 @@ body.ios-portrait-compact .player-meta .name{font-size:9px!important}
 body.ios-portrait-compact .money{font-size:11px!important}
 body.ios-portrait-compact .mini-stats{font-size:7px!important;margin-top:2px!important}
 body.ios-portrait-compact .bank-meter{display:flex!important;justify-content:space-between!important;gap:8px!important;margin:3px 5px 5px!important;padding:4px!important;font-size:8px!important}
+body.ios-portrait-compact .bank-meter div{gap:5px!important}
+
 body.ios-portrait-compact .board-zone{grid-column:1!important;grid-row:auto!important;padding-right:0!important;min-width:0!important}
 body.ios-portrait-compact .board-frame{width:100%!important;min-height:0!important;height:auto!important;aspect-ratio:1.55/1!important;border-radius:10px!important}
 body.ios-portrait-compact .board{inset:7px 18px 7px 7px!important}
@@ -233,6 +230,8 @@ body.ios-portrait-compact .tile-name{font-size:6px!important;bottom:1px!importan
 body.ios-portrait-compact .tile-index{font-size:6px!important;top:1px!important;left:2px!important}
 body.ios-portrait-compact .landmark .tile-name{font-size:7px!important;bottom:1px!important;padding:1px 2px!important}
 body.ios-portrait-compact .token{width:20px!important;height:20px!important;font-size:13px!important;border-width:2px!important}
+body.ios-portrait-compact .tile-preview-note{font-size:6px!important;padding:1px 3px!important;top:2px!important}
+
 body.ios-portrait-compact .action-deck{margin-top:4px!important;grid-template-columns:82px minmax(0,1fr)!important;min-height:86px!important;padding:4px!important}
 body.ios-portrait-compact .dice-stage{gap:5px!important}
 body.ios-portrait-compact .die{width:36px!important;height:36px!important;font-size:20px!important;border-radius:8px!important}
@@ -243,27 +242,44 @@ body.ios-portrait-compact .move-preview{gap:3px!important;margin:1px 0 3px!impor
 body.ios-portrait-compact .move-chip{font-size:7px!important;padding:3px 4px!important}
 body.ios-portrait-compact .primary-actions,body.ios-portrait-compact .skill-actions{gap:3px!important}
 body.ios-portrait-compact .primary-actions button,body.ios-portrait-compact .skill-actions button{padding:4px 5px!important;font-size:8px!important;border-radius:5px!important}
+
 body.ios-portrait-compact .right-panel{grid-column:1!important;grid-row:auto!important;display:grid!important;grid-template-columns:minmax(0,1fr) 120px!important;gap:5px!important;padding-left:0!important;margin-top:0!important;position:relative!important;z-index:1!important}
 body.ios-portrait-compact .game-log{height:118px!important;min-height:118px!important}
 body.ios-portrait-compact .log-list{height:91px!important;font-size:7px!important;padding:3px!important;gap:2px!important}
+body.ios-portrait-compact .log-entry{padding:2px 3px!important}
 body.ios-portrait-compact .detail-card-wrap{min-height:118px!important;height:118px!important}
 body.ios-portrait-compact .card-detail{min-height:90px!important;height:90px!important;padding:2px!important;overflow:hidden!important}
 body.ios-portrait-compact .panel-title{font-size:8px!important;padding:4px 5px!important}
+body.ios-portrait-compact .card-detail .skill-card{width:70px!important;min-width:70px!important;height:92px!important;padding:15px 2px 2px!important}
+body.ios-portrait-compact .card-detail .skill-art{height:27px!important;font-size:19px!important}
+body.ios-portrait-compact .card-detail .skill-name{font-size:6px!important;margin:1px 0!important}
+body.ios-portrait-compact .card-detail .skill-effect{height:18px!important;font-size:5px!important;padding:1px!important}
+body.ios-portrait-compact .card-detail .skill-price{font-size:7px!important;margin-top:1px!important}
+body.ios-portrait-compact .card-detail .rarity-badge{width:15px!important;height:15px!important;font-size:8px!important;left:2px!important;top:2px!important}
+body.ios-portrait-compact .card-detail .cat-badge{width:14px!important;height:14px!important;right:2px!important;top:2px!important}
+
 body.ios-portrait-compact .skills-zone{grid-template-columns:1fr!important;gap:5px!important;margin-top:6px!important}
 body.ios-portrait-compact .dock-head{min-height:25px!important;padding:4px 6px!important;font-size:8px!important}
 body.ios-portrait-compact .current-skills{min-height:70px!important;padding:4px!important}
 body.ios-portrait-compact .all-player-skills{max-height:145px!important;padding:4px!important}
+body.ios-portrait-compact .player-skill-row{grid-template-columns:88px minmax(0,1fr)!important}
+body.ios-portrait-compact .row-info{font-size:8px!important}
+
 body.ios-portrait-compact #setupOverlay{padding:6px!important;align-items:center!important;overflow:auto!important}body.ios-portrait-compact #setupOverlay.show{display:grid!important}body.ios-portrait-compact #setupOverlay:not(.show){display:none!important}
 body.ios-portrait-compact #setupOverlay .setup-card{width:min(94vw,430px)!important;max-height:calc(100svh - 12px)!important;overflow:auto!important;padding:10px 12px!important}
 body.ios-portrait-compact #setupOverlay .setup-title{font-size:26px!important;line-height:1.05!important}
-body.ios-portrait-compact #setupOverlay .setup-title small{font-size:8px!important}
+body.ios-portrait-compact #setupOverlay .setup-title small{font-size:8px!important;margin-top:2px!important}
 body.ios-portrait-compact #setupOverlay .setup-card>p{font-size:10px!important;line-height:1.3!important;margin:5px 0 7px!important}
 body.ios-portrait-compact #setupOverlay .setup-tabs,body.ios-portrait-compact #setupOverlay .online-tabs{gap:5px!important;margin:6px 0!important}
 body.ios-portrait-compact #setupOverlay .tab{padding:7px 8px!important;font-size:10px!important}
 body.ios-portrait-compact #setupOverlay .setup-pane,body.ios-portrait-compact #setupOverlay .online-form{grid-template-columns:1fr 1fr!important;gap:6px!important}
-body.ios-portrait-compact #setupOverlay .setup-pane label,body.ios-portrait-compact #setupOverlay .online-form label{font-size:10px!important}
+body.ios-portrait-compact #setupOverlay .setup-pane label,body.ios-portrait-compact #setupOverlay .online-form label{font-size:10px!important;gap:2px!important}
 body.ios-portrait-compact #setupOverlay select,body.ios-portrait-compact #setupOverlay input{padding:7px!important;min-height:32px!important;font-size:11px!important}
 body.ios-portrait-compact #setupOverlay .hero-btn{padding:8px 10px!important;font-size:12px!important;min-height:34px!important}
+body.ios-portrait-compact #setupOverlay .room-code{font-size:14px!important;margin:6px!important}
+body.ios-portrait-compact #setupOverlay .room-code strong{font-size:21px!important}
+body.ios-portrait-compact #setupOverlay .lobby-player{padding:5px!important;font-size:10px!important}
+body.ios-portrait-compact #setupOverlay .lobby-actions{margin-top:6px!important;gap:5px!important}
 
 </style>
 </head>
@@ -631,7 +647,7 @@ async function rollDice(){
   state.currentAction=0;
   ui.hoverPreview=null;
   state.phase='rolling';
-  setHint(`${p.name}：ダイスを振っています`,'連打しても1回だけ判定されます。');
+  setHint(`${p.name}：ダイスを振っています`,`連打しても1回だけ判定されます。`);
   setButtons([{label:'🎲 振っています…',className:'primary',disabled:true}],[]);
   state.dice=[randDie(),randDie()];
   try{
@@ -711,25 +727,35 @@ const SUPABASE_URL='https://fyfkvedizdhvrdmcbkqq.supabase.co';
 const SUPABASE_KEY='sb_publishable_xZSKbdnnOjyrhGK5PWFzjA_sAp-uMP6';
 const ROOM_API=`${SUPABASE_URL}/functions/v1/buildnaire-room`;
 const sb=window.supabase?.createClient?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false}}):null;
-const online={enabled:false,code:'',token:'',playerId:'',version:0,channel:null,applying:false,syncing:false,isHost:false};
+const online={enabled:false,code:'',token:'',playerId:'',version:0,channel:null,applying:false,syncing:false,isHost:false,pollTimer:null,lastStatus:''};
 const onlineEls={tabCreate:$('#tabCreateRoom'),tabJoin:$('#tabJoinRoom'),createPane:$('#onlineCreatePane'),joinPane:$('#onlineJoinPane'),lobby:$('#onlineLobby'),hostName:$('#onlineHostName'),joinName:$('#onlineJoinName'),code:$('#onlineRoomCode'),max:$('#onlineMaxPlayers'),goal:$('#onlineGoal'),createBtn:$('#createRoomBtn'),joinBtn:$('#joinRoomBtn'),startBtn:$('#onlineStartBtn'),leaveBtn:$('#leaveRoomBtn'),roomCode:$('#roomCodeLabel'),lobbyPlayers:$('#lobbyPlayers'),badge:$('#onlineBadge')};
 async function roomApi(payload){const r=await fetch(ROOM_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.error||`通信エラー (${r.status})`);return data}
 function saveOnlineSession(){if(online.enabled)localStorage.setItem('buildnaire_online_session',JSON.stringify({code:online.code,token:online.token,playerId:online.playerId}))}
 function clearOnlineSession(){localStorage.removeItem('buildnaire_online_session')}
 function localTurn(){return !online.enabled||currentPlayer()?.clientId===online.playerId}
-function renderLobby(room){const ps=room.players||[];onlineEls.roomCode.textContent=room.code;onlineEls.lobbyPlayers.innerHTML=ps.map((p,i)=>`<div class="lobby-player"><span>${i+1}P ${escapeHtml(p.avatar)} ${escapeHtml(p.name)}</span><b>${p.id===online.playerId?'あなた':''}</b></div>`).join('');online.isHost=ps[0]?.id===online.playerId;onlineEls.startBtn.hidden=!online.isHost;onlineEls.startBtn.disabled=ps.length<2;onlineEls.startBtn.textContent=ps.length<2?'2人以上で開始':'ゲーム開始'}
+function renderLobby(room){online.lastStatus='lobby';const ps=room.players||[];onlineEls.roomCode.textContent=room.code;onlineEls.lobbyPlayers.innerHTML=ps.map((p,i)=>`<div class="lobby-player"><span>${i+1}P ${escapeHtml(p.avatar)} ${escapeHtml(p.name)}</span><b>${p.id===online.playerId?'あなた':''}</b></div>`).join('');online.isHost=ps[0]?.id===online.playerId;onlineEls.startBtn.hidden=!online.isHost;onlineEls.startBtn.disabled=ps.length<2;onlineEls.startBtn.textContent=ps.length<2?'2人以上で開始':'ゲーム開始'}
 function showLobby(room){onlineEls.createPane.hidden=true;onlineEls.joinPane.hidden=true;onlineEls.lobby.hidden=false;els.setupOverlay.classList.add('show');renderLobby(room)}
 async function subscribeRoom(code){if(!sb)return;if(online.channel){try{await sb.removeChannel(online.channel)}catch{}}online.channel=sb.channel(`buildnaire:${code}`).on('postgres_changes',{event:'UPDATE',schema:'public',table:'buildnaire_rooms',filter:`code=eq.${code}`},p=>applyRoomUpdate(p.new)).on('postgres_changes',{event:'INSERT',schema:'public',table:'buildnaire_players'},()=>refreshRoom()).on('postgres_changes',{event:'DELETE',schema:'public',table:'buildnaire_players'},()=>refreshRoom()).subscribe()}
 async function refreshRoom(){if(!online.enabled)return;try{const d=await roomApi({action:'get',code:online.code});applyRoomUpdate(d.room)}catch(e){console.warn(e)}}
-function applyRoomUpdate(room){if(!room)return;if(Number(room.version||0)<online.version)return;online.version=Number(room.version||0);if(room.status==='lobby'){renderLobby(room);return}if(room.state&&Array.isArray(room.state.players)){online.applying=true;const remote=JSON.parse(JSON.stringify(room.state));Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,remote);normalizeState();if(state.phase==='awaitRoll'||state.dice?.[0]==null){state.phase='awaitRoll';state.dice=[null,null];state.moveIndex=null;state.actionIndex=null;state.currentMove=0;state.currentAction=0;state.moveDirection=1;state.rerolledOne=false;state.mirrorUsed=false;state.doublesAwarded=false;state.movedSteps=0;ui.diceBusy=false;ui.hoverPreview=null;clearMovePreview()}renderAll();els.setupOverlay.classList.remove('show');onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;online.applying=false;if(localTurn()&&!state.winner){if(state.phase==='awaitRoll'||state.dice?.[0]==null)buildAwaitRollActions();else if(state.phase==='afterDice')afterDiceRoll()}else if(!state.winner){setHint(`${currentPlayer()?.name||'相手'} の操作待ち`,`オンライン対戦中です。`);setButtons([],[])}}}
+function stopRoomPolling(){if(online.pollTimer){clearTimeout(online.pollTimer);online.pollTimer=null}}
+function startRoomPolling(){
+  stopRoomPolling();
+  const tick=async()=>{
+    if(!online.enabled)return;
+    try{await refreshRoom()}catch(e){console.warn('poll',e)}
+    if(online.enabled&&online.lastStatus==='lobby')online.pollTimer=setTimeout(tick,800)
+  };
+  online.pollTimer=setTimeout(tick,250)
+}
+function applyRoomUpdate(room){if(!room)return;if(Number(room.version||0)<online.version)return;online.version=Number(room.version||0);online.lastStatus=room.status||online.lastStatus;if(room.status==='lobby'){renderLobby(room);return}stopRoomPolling();if(room.state&&Array.isArray(room.state.players)){online.applying=true;const remote=JSON.parse(JSON.stringify(room.state));Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,remote);normalizeState();if(state.phase==='awaitRoll'||state.dice?.[0]==null){state.phase='awaitRoll';state.dice=[null,null];state.moveIndex=null;state.actionIndex=null;state.currentMove=0;state.currentAction=0;state.moveDirection=1;state.rerolledOne=false;state.mirrorUsed=false;state.doublesAwarded=false;state.movedSteps=0;ui.diceBusy=false;ui.hoverPreview=null;clearMovePreview()}renderAll();els.setupOverlay.classList.remove('show');onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;online.applying=false;if(localTurn()&&!state.winner){if(state.phase==='awaitRoll'||state.dice?.[0]==null)buildAwaitRollActions();else if(state.phase==='afterDice')afterDiceRoll()}else if(!state.winner){setHint(`${currentPlayer()?.name||'相手'} の操作待ち`,`オンライン対戦中です。`);setButtons([],[])}}}
 let syncTimer=null;
 function scheduleOnlineSync(){if(!online.enabled||online.applying||online.syncing||!localTurn()||state.phase==='setup')return;clearTimeout(syncTimer);syncTimer=setTimeout(()=>syncOnlineState(false),180)}
 async function syncOnlineState(force=false){if(!online.enabled||online.applying||online.syncing||(!force&&!localTurn()))return;online.syncing=true;try{const copy=JSON.parse(JSON.stringify(state));const d=await roomApi({action:'sync',code:online.code,token:online.token,version:online.version,state:copy});online.version=d.room.version}catch(e){console.warn('sync',e);await refreshRoom()}finally{online.syncing=false}}
 async function flushOnlineSync(force=false){clearTimeout(syncTimer);let n=0;while(online.syncing&&n++<40)await wait(50);await syncOnlineState(force)}
-async function createOnlineRoom(){if(!sb)return toast('オンライン機能を読み込めませんでした。');onlineEls.createBtn.disabled=true;try{const d=await roomApi({action:'create',name:onlineEls.hostName.value.trim(),max_players:+onlineEls.max.value,goal:+onlineEls.goal.value});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.createBtn.disabled=false}}
-async function joinOnlineRoom(){onlineEls.joinBtn.disabled=true;try{const d=await roomApi({action:'join',code:onlineEls.code.value.trim().toUpperCase(),name:onlineEls.joinName.value.trim()});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.joinBtn.disabled=false}}
+async function createOnlineRoom(){if(!sb)return toast('オンライン機能を読み込めませんでした。');onlineEls.createBtn.disabled=true;try{const d=await roomApi({action:'create',name:onlineEls.hostName.value.trim(),max_players:+onlineEls.max.value,goal:+onlineEls.goal.value});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.createBtn.disabled=false}}
+async function joinOnlineRoom(){onlineEls.joinBtn.disabled=true;try{const d=await roomApi({action:'join',code:onlineEls.code.value.trim().toUpperCase(),name:onlineEls.joinName.value.trim()});Object.assign(online,{enabled:true,code:d.room.code,token:d.token,playerId:d.player_id,version:d.room.version});saveOnlineSession();await subscribeRoom(online.code);showLobby(d.room);startRoomPolling();onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`}catch(e){toast(e.message)}finally{onlineEls.joinBtn.disabled=false}}
 async function startOnlineGame(){onlineEls.startBtn.disabled=true;try{const d=await roomApi({action:'start',code:online.code,token:online.token});applyRoomUpdate(d.room)}catch(e){toast(e.message);onlineEls.startBtn.disabled=false}}
-async function leaveOnlineRoom(){try{await roomApi({action:'leave',code:online.code,token:online.token})}catch(e){toast(e.message);return}if(online.channel&&sb){try{await sb.removeChannel(online.channel)}catch{}}clearOnlineSession();location.reload()}
+async function leaveOnlineRoom(){stopRoomPolling();try{await roomApi({action:'leave',code:online.code,token:online.token})}catch(e){toast(e.message);return}if(online.channel&&sb){try{await sb.removeChannel(online.channel)}catch{}}clearOnlineSession();location.reload()}
 
 // ============================================================
 // UI wiring
@@ -749,16 +775,79 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modalOverlay.cl
 
 const orientationGate=$('#orientationGate');
 const landscapeBtn=$('#landscapeBtn');
-function isIOSDevice(){return /iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)}
-function isInAppBrowser(){const ua=navigator.userAgent||'';return /Discord|FBAN|FBAV|Instagram|Line\\/|Twitter|TikTok|YouTube/i.test(ua)||(isIOSDevice()&&!/Safari/i.test(ua))}
-function viewportLandscape(){const vv=window.visualViewport;const w=vv?.width||window.innerWidth||document.documentElement.clientWidth;const h=vv?.height||window.innerHeight||document.documentElement.clientHeight;return w>h}
-function isMobileLandscapeTarget(){return matchMedia('(pointer:coarse)').matches&&Math.min(screen.width,screen.height)<=900}
-function setIOSVirtualLandscape(enabled){document.body.classList.toggle('ios-virtual-landscape',!!enabled)}
-function setIOSPortraitCompact(enabled){document.body.classList.toggle('ios-portrait-compact',!!enabled)}
-async function requestLandscape({fullscreen=false}={}){if(!isMobileLandscapeTarget())return true;try{if(fullscreen&&!document.fullscreenElement&&document.documentElement.requestFullscreen){await document.documentElement.requestFullscreen({navigationUI:'hide'})}}catch(e){}try{if(screen.orientation&&typeof screen.orientation.lock==='function'){await screen.orientation.lock('landscape');return true}}catch(e){}return viewportLandscape()}
-function syncOrientationMode(){const mobile=isMobileLandscapeTarget();if(!mobile){setIOSVirtualLandscape(false);setIOSPortraitCompact(false);if(orientationGate)orientationGate.style.display='none';return}if(isIOSDevice()||isInAppBrowser()){setIOSVirtualLandscape(false);setIOSPortraitCompact(!viewportLandscape());if(orientationGate)orientationGate.style.display='none';return}setIOSPortraitCompact(false);if(orientationGate)orientationGate.style.display=viewportLandscape()?'none':'flex'}
-async function autoLandscape(){if(!isMobileLandscapeTarget())return;if(!isIOSDevice()&&!isInAppBrowser())await requestLandscape({fullscreen:false});setTimeout(syncOrientationMode,80)}
-if(landscapeBtn)landscapeBtn.addEventListener('click',()=>{if(orientationGate)orientationGate.style.display='none';setIOSPortraitCompact(!viewportLandscape())});
+
+function isIOSDevice(){
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+}
+function isInAppBrowser(){
+  const ua=navigator.userAgent||'';
+  return /Discord|FBAN|FBAV|Instagram|Line\/|Twitter|TikTok|YouTube/i.test(ua) ||
+    (isIOSDevice() && !/Safari/i.test(ua));
+}
+function viewportLandscape(){
+  const vv=window.visualViewport;
+  const w=vv?.width||window.innerWidth||document.documentElement.clientWidth;
+  const h=vv?.height||window.innerHeight||document.documentElement.clientHeight;
+  return w>h;
+}
+function isMobileLandscapeTarget(){
+  return matchMedia('(pointer:coarse)').matches && Math.min(screen.width,screen.height)<=900;
+}
+function setIOSVirtualLandscape(enabled){
+  document.body.classList.toggle('ios-virtual-landscape',!!enabled);
+}
+function setIOSPortraitCompact(enabled){
+  document.body.classList.toggle('ios-portrait-compact',!!enabled);
+}
+async function requestLandscape({fullscreen=false}={}){
+  if(!isMobileLandscapeTarget())return true;
+  try{
+    if(fullscreen&&!document.fullscreenElement&&document.documentElement.requestFullscreen){
+      await document.documentElement.requestFullscreen({navigationUI:'hide'});
+    }
+  }catch(e){console.debug('fullscreen unavailable',e)}
+  try{
+    if(screen.orientation&&typeof screen.orientation.lock==='function'){
+      await screen.orientation.lock('landscape');
+      return true;
+    }
+  }catch(e){console.debug('orientation lock unavailable',e)}
+  return viewportLandscape();
+}
+function syncOrientationMode(){
+  const mobile=isMobileLandscapeTarget();
+  if(!mobile){
+    setIOSVirtualLandscape(false);
+    setIOSPortraitCompact(false);
+    if(orientationGate)orientationGate.style.display='none';
+    return;
+  }
+
+  // iPhone and social/in-app browsers must never be trapped behind the orientation overlay.
+  if(isIOSDevice()||isInAppBrowser()){
+    setIOSVirtualLandscape(false);
+    setIOSPortraitCompact(!viewportLandscape());
+    if(orientationGate)orientationGate.style.display='none';
+    return;
+  }
+
+  setIOSPortraitCompact(false);
+  if(viewportLandscape()){
+    if(orientationGate)orientationGate.style.display='none';
+  }else{
+    if(orientationGate)orientationGate.style.display='flex';
+  }
+}
+async function autoLandscape(){
+  if(!isMobileLandscapeTarget())return;
+  if(!isIOSDevice()&&!isInAppBrowser()) await requestLandscape({fullscreen:false});
+  setTimeout(syncOrientationMode,80);
+}
+if(landscapeBtn)landscapeBtn.addEventListener('click',()=>{
+  if(orientationGate)orientationGate.style.display='none';
+  setIOSPortraitCompact(!viewportLandscape());
+});
 window.addEventListener('orientationchange',()=>setTimeout(syncOrientationMode,100));
 window.addEventListener('resize',()=>setTimeout(syncOrientationMode,50));
 if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(syncOrientationMode,30));
@@ -767,7 +856,7 @@ setTimeout(syncOrientationMode,30);
 setTimeout(syncOrientationMode,250);
 
 initBoard();renderAll();
-(async()=>{try{const s=JSON.parse(localStorage.getItem('buildnaire_online_session')||'null');if(s?.code&&s?.token&&s?.playerId){Object.assign(online,{enabled:true,code:s.code,token:s.token,playerId:s.playerId});const d=await roomApi({action:'get',code:online.code});online.version=d.room.version;await subscribeRoom(online.code);onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;applyRoomUpdate(d.room);if(d.room.status==='lobby')showLobby(d.room)}}catch(e){console.warn('resume',e);clearOnlineSession()}})();
+(async()=>{try{const s=JSON.parse(localStorage.getItem('buildnaire_online_session')||'null');if(s?.code&&s?.token&&s?.playerId){Object.assign(online,{enabled:true,code:s.code,token:s.token,playerId:s.playerId});const d=await roomApi({action:'get',code:online.code});online.version=d.room.version;await subscribeRoom(online.code);onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;applyRoomUpdate(d.room);if(d.room.status==='lobby'){showLobby(d.room);startRoomPolling()}}catch(e){console.warn('resume',e);clearOnlineSession()}})();
 
 </script>
 </body>
