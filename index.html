@@ -284,6 +284,12 @@ body.ios-portrait-compact #setupOverlay .lobby-actions{margin-top:6px!important;
 
 /* v21: Never block mobile players behind an orientation screen. */
 .orientation-gate{display:none!important}
+
+/* v22: setup interaction hardening */
+#setupOverlay{pointer-events:auto!important}
+#setupOverlay .setup-card,#setupOverlay button,#setupOverlay input,#setupOverlay select{pointer-events:auto!important;position:relative;z-index:2}
+#modalOverlay:not(.show){display:none!important;pointer-events:none!important}
+#orientationGate{display:none!important;pointer-events:none!important}
 </style>
 </head>
 <body>
@@ -628,7 +634,7 @@ function modifierModal(p,move,action){const items=[];if(hasSkill(p,'バックギ
 function normalizePlayer(p,i=0){p.id=p.id??i+1;p.name=p.name||`PLAYER ${i+1}`;p.avatar=p.avatar||AVATARS[i%4];p.color=p.color||COLORS[i%4];p.kind=p.kind||'cpu';p.money=Number.isFinite(p.money)?p.money:30;p.pos=Number.isFinite(p.pos)?p.pos:0;p.lap=Number.isFinite(p.lap)?p.lap:0;p.skills=Array.isArray(p.skills)?p.skills:[];p.pendingAlchemy=Number(p.pendingAlchemy||0);p.smokeUsedThisLap=!!p.smokeUsedThisLap;return p}
 function normalizeState(){state.players=(state.players||[]).map(normalizePlayer);state.logs=Array.isArray(state.logs)?state.logs.map(x=>typeof x==='string'?{text:x,kind:''}:x):[];state.phase=state.phase||'awaitRoll';state.dice=Array.isArray(state.dice)?state.dice:[null,null];state.goal=Number(state.goal||500);state.turnIndex=Math.max(0,Math.min(state.players.length-1,Number(state.turnIndex||0)));state.bankPool=Number(state.bankPool||0);state.bankPassStreak=Number(state.bankPassStreak||0);state.roundTurn=Number(state.roundTurn||1)}
 
-async function startLocal(){const requested=+$('#localPlayers').value;const total=Math.max(2,requested);const ps=[];for(let i=0;i<total;i++){ps.push(normalizePlayer({id:i+1,name:i===0?'あなた':CPU_NAMES[i-1]||`CPU${i}`,avatar:AVATARS[i%4],color:COLORS[i%4],kind:i===0?'human':'cpu',money:30,pos:0,lap:0,skills:[],pendingAlchemy:0,smokeUsedThisLap:false},i))}const rolls=ps.map(p=>({p,r:randDie()+randDie(),tie:Math.random()})).sort((a,b)=>b.r-a.r||b.tie-a.tie);state.players=rolls.map(x=>x.p);state.turnIndex=0;state.roundTurn=1;state.bankPool=0;state.bankPassStreak=0;state.goal=+$('#localGoal').value;state.phase='awaitRoll';state.dice=[null,null];state.winner=null;state.logs=[];state.turnToken++;addLog(`ゲーム開始。開始順：${state.players.map(p=>p.name).join(' → ')}`,'special');els.setupOverlay.classList.remove('show');renderAll();await beginTurn()}
+async function startLocal(){stopRoomPolling?.();if(online?.channel&&sb){try{await sb.removeChannel(online.channel)}catch{}}if(typeof clearOnlineSession==='function')clearOnlineSession();Object.assign(online,{enabled:false,code:'',token:'',playerId:'',version:0,channel:null,applying:false,syncing:false,isHost:false,lastStatus:''});if(onlineEls?.badge){onlineEls.badge.hidden=true;onlineEls.badge.textContent='ONLINE'}const requested=+$('#localPlayers').value;const total=Math.max(2,requested);const ps=[];for(let i=0;i<total;i++){ps.push(normalizePlayer({id:i+1,name:i===0?'あなた':CPU_NAMES[i-1]||`CPU${i}`,avatar:AVATARS[i%4],color:COLORS[i%4],kind:i===0?'human':'cpu',money:30,pos:0,lap:0,skills:[],pendingAlchemy:0,smokeUsedThisLap:false},i))}const rolls=ps.map(p=>({p,r:randDie()+randDie(),tie:Math.random()})).sort((a,b)=>b.r-a.r||b.tie-a.tie);state.players=rolls.map(x=>x.p);state.turnIndex=0;state.roundTurn=1;state.bankPool=0;state.bankPassStreak=0;state.goal=+$('#localGoal').value;state.phase='awaitRoll';state.dice=[null,null];state.winner=null;state.logs=[];state.turnToken++;addLog(`ゲーム開始。開始順：${state.players.map(p=>p.name).join(' → ')}`,'special');els.setupOverlay.classList.remove('show');renderAll();await beginTurn()}
 
 async function beginTurn(){if(state.winner)return;const p=currentPlayer();if(!p)return;ui.diceBusy=false;state.phase='awaitRoll';state.dice=[null,null];state.moveIndex=null;state.actionIndex=null;state.currentMove=0;state.currentAction=0;state.moveDirection=1;state.rerolledOne=false;state.mirrorUsed=false;state.foresightLeft=hasSkill(p,'予知夢')?2:0;state.doublesAwarded=false;state.movedSteps=0;state.turnToken++;
   if(p.pendingAlchemy>0){const g=Math.floor(p.pendingAlchemy);p.pendingAlchemy=0;p.money+=g;addLog(`${p.name}：錬金石で +${g}G。`,'good');floatMoney(`+${g}G`)}
@@ -729,7 +735,7 @@ function showRules(){openModal(`<div class="modal-title">ゲームルール</div
 const SUPABASE_URL='https://fyfkvedizdhvrdmcbkqq.supabase.co';
 const SUPABASE_KEY='sb_publishable_xZSKbdnnOjyrhGK5PWFzjA_sAp-uMP6';
 const ROOM_API=`${SUPABASE_URL}/functions/v1/buildnaire-room`;
-const sb=window.supabase?.createClient?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false}}):null;
+let sb=null;try{if(window.supabase?.createClient){sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false}})}}catch(e){console.warn('Supabase client init failed',e);sb=null;}
 const online={enabled:false,code:'',token:'',playerId:'',version:0,channel:null,applying:false,syncing:false,isHost:false,pollTimer:null,lastStatus:''};
 const onlineEls={tabCreate:$('#tabCreateRoom'),tabJoin:$('#tabJoinRoom'),createPane:$('#onlineCreatePane'),joinPane:$('#onlineJoinPane'),lobby:$('#onlineLobby'),hostName:$('#onlineHostName'),joinName:$('#onlineJoinName'),code:$('#onlineRoomCode'),max:$('#onlineMaxPlayers'),goal:$('#onlineGoal'),createBtn:$('#createRoomBtn'),joinBtn:$('#joinRoomBtn'),startBtn:$('#onlineStartBtn'),leaveBtn:$('#leaveRoomBtn'),roomCode:$('#roomCodeLabel'),lobbyPlayers:$('#lobbyPlayers'),badge:$('#onlineBadge')};
 async function roomApi(payload){const r=await fetch(ROOM_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.error||`通信エラー (${r.status})`);return data}
@@ -763,12 +769,12 @@ async function leaveOnlineRoom(){stopRoomPolling();try{await roomApi({action:'le
 // ============================================================
 // UI wiring
 // ============================================================
-$('#startLocalBtn').onclick=startLocal;
+const startLocalBtn=$('#startLocalBtn');if(startLocalBtn)startLocalBtn.onclick=async e=>{e.preventDefault();e.stopPropagation();await startLocal()};
 $('#encyclopediaBtn').onclick=showEncyclopedia;
 $('#rulesBtn').onclick=showRules;
 $('#menuBtn').onclick=()=>openModal(`<div class="modal-title">MENU</div><div class="choice-grid"><button class="choice" data-book>📚 スキル図鑑</button><button class="choice" data-rule>📜 ルール</button><button class="choice" data-reset>↻ タイトルへ</button></div><div class="modal-actions"><button data-close>閉じる</button></div>`);
 document.addEventListener('click',e=>{if(e.target.matches('[data-book]')){closeModal();showEncyclopedia()}if(e.target.matches('[data-rule]')){closeModal();showRules()}if(e.target.matches('[data-reset]')){closeModal();els.setupOverlay.classList.add('show')}if(e.target.matches('[data-close]'))closeModal()});
-$('#localTab').onclick=()=>{$('#localTab').classList.add('active');$('#onlineTab').classList.remove('active');$('#localPane').hidden=false;$('#onlinePane').hidden=true};
+$('#localTab').onclick=()=>{stopRoomPolling?.();online.enabled=false;$('#localTab').classList.add('active');$('#onlineTab').classList.remove('active');$('#localPane').hidden=false;$('#onlinePane').hidden=true};
 $('#onlineTab').onclick=()=>{$('#onlineTab').classList.add('active');$('#localTab').classList.remove('active');$('#onlinePane').hidden=false;$('#localPane').hidden=true};
 onlineEls.tabCreate.onclick=()=>{onlineEls.createPane.hidden=false;onlineEls.joinPane.hidden=true;onlineEls.tabCreate.classList.add('active');onlineEls.tabJoin.classList.remove('active')};
 onlineEls.tabJoin.onclick=()=>{onlineEls.createPane.hidden=true;onlineEls.joinPane.hidden=false;onlineEls.tabJoin.classList.add('active');onlineEls.tabCreate.classList.remove('active')};
@@ -812,7 +818,7 @@ setTimeout(syncOrientationMode,20);
 setTimeout(syncOrientationMode,200);
 
 initBoard();renderAll();
-(async()=>{try{const s=JSON.parse(localStorage.getItem('buildnaire_online_session')||'null');if(s?.code&&s?.token&&s?.playerId){Object.assign(online,{enabled:true,code:s.code,token:s.token,playerId:s.playerId});const d=await roomApi({action:'get',code:online.code});online.version=d.room.version;await subscribeRoom(online.code);onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;applyRoomUpdate(d.room);if(d.room.status==='lobby'){showLobby(d.room);startRoomPolling()}}catch(e){console.warn('resume',e);clearOnlineSession()}})();
+try{const s=JSON.parse(localStorage.getItem('buildnaire_online_session')||'null');if(s?.code)console.info('Previous online room saved:',s.code)}catch(e){}
 
 </script>
 </body>
