@@ -281,6 +281,9 @@ body.ios-portrait-compact #setupOverlay .room-code strong{font-size:21px!importa
 body.ios-portrait-compact #setupOverlay .lobby-player{padding:5px!important;font-size:10px!important}
 body.ios-portrait-compact #setupOverlay .lobby-actions{margin-top:6px!important;gap:5px!important}
 
+
+/* v21: Never block mobile players behind an orientation screen. */
+.orientation-gate{display:none!important}
 </style>
 </head>
 <body>
@@ -776,15 +779,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&els.modalOverlay.cl
 const orientationGate=$('#orientationGate');
 const landscapeBtn=$('#landscapeBtn');
 
-function isIOSDevice(){
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
-}
-function isInAppBrowser(){
-  const ua=navigator.userAgent||'';
-  return /Discord|FBAN|FBAV|Instagram|Line\/|Twitter|TikTok|YouTube/i.test(ua) ||
-    (isIOSDevice() && !/Safari/i.test(ua));
-}
 function viewportLandscape(){
   const vv=window.visualViewport;
   const w=vv?.width||window.innerWidth||document.documentElement.clientWidth;
@@ -792,68 +786,30 @@ function viewportLandscape(){
   return w>h;
 }
 function isMobileLandscapeTarget(){
-  return matchMedia('(pointer:coarse)').matches && Math.min(screen.width,screen.height)<=900;
+  return matchMedia('(pointer:coarse)').matches && Math.min(screen.width,screen.height)<=1000;
 }
 function setIOSVirtualLandscape(enabled){
-  document.body.classList.toggle('ios-virtual-landscape',!!enabled);
+  document.body.classList.toggle('ios-virtual-landscape',false);
 }
 function setIOSPortraitCompact(enabled){
   document.body.classList.toggle('ios-portrait-compact',!!enabled);
 }
-async function requestLandscape({fullscreen=false}={}){
-  if(!isMobileLandscapeTarget())return true;
-  try{
-    if(fullscreen&&!document.fullscreenElement&&document.documentElement.requestFullscreen){
-      await document.documentElement.requestFullscreen({navigationUI:'hide'});
-    }
-  }catch(e){console.debug('fullscreen unavailable',e)}
-  try{
-    if(screen.orientation&&typeof screen.orientation.lock==='function'){
-      await screen.orientation.lock('landscape');
-      return true;
-    }
-  }catch(e){console.debug('orientation lock unavailable',e)}
-  return viewportLandscape();
-}
 function syncOrientationMode(){
-  const mobile=isMobileLandscapeTarget();
-  if(!mobile){
-    setIOSVirtualLandscape(false);
-    setIOSPortraitCompact(false);
-    if(orientationGate)orientationGate.style.display='none';
-    return;
-  }
-
-  // iPhone and social/in-app browsers must never be trapped behind the orientation overlay.
-  if(isIOSDevice()||isInAppBrowser()){
-    setIOSVirtualLandscape(false);
-    setIOSPortraitCompact(!viewportLandscape());
-    if(orientationGate)orientationGate.style.display='none';
-    return;
-  }
-
-  setIOSPortraitCompact(false);
-  if(viewportLandscape()){
-    if(orientationGate)orientationGate.style.display='none';
-  }else{
-    if(orientationGate)orientationGate.style.display='flex';
-  }
-}
-async function autoLandscape(){
-  if(!isMobileLandscapeTarget())return;
-  if(!isIOSDevice()&&!isInAppBrowser()) await requestLandscape({fullscreen:false});
-  setTimeout(syncOrientationMode,80);
+  const compact=isMobileLandscapeTarget()&&!viewportLandscape();
+  setIOSVirtualLandscape(false);
+  setIOSPortraitCompact(compact);
+  if(orientationGate)orientationGate.style.display='none';
 }
 if(landscapeBtn)landscapeBtn.addEventListener('click',()=>{
   if(orientationGate)orientationGate.style.display='none';
-  setIOSPortraitCompact(!viewportLandscape());
+  syncOrientationMode();
 });
-window.addEventListener('orientationchange',()=>setTimeout(syncOrientationMode,100));
-window.addEventListener('resize',()=>setTimeout(syncOrientationMode,50));
-if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(syncOrientationMode,30));
+window.addEventListener('orientationchange',()=>setTimeout(syncOrientationMode,80));
+window.addEventListener('resize',()=>setTimeout(syncOrientationMode,40));
+if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(syncOrientationMode,20));
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncOrientationMode()});
-setTimeout(syncOrientationMode,30);
-setTimeout(syncOrientationMode,250);
+setTimeout(syncOrientationMode,20);
+setTimeout(syncOrientationMode,200);
 
 initBoard();renderAll();
 (async()=>{try{const s=JSON.parse(localStorage.getItem('buildnaire_online_session')||'null');if(s?.code&&s?.token&&s?.playerId){Object.assign(online,{enabled:true,code:s.code,token:s.token,playerId:s.playerId});const d=await roomApi({action:'get',code:online.code});online.version=d.room.version;await subscribeRoom(online.code);onlineEls.badge.hidden=false;onlineEls.badge.textContent=`ONLINE ${online.code}`;applyRoomUpdate(d.room);if(d.room.status==='lobby'){showLobby(d.room);startRoomPolling()}}catch(e){console.warn('resume',e);clearOnlineSession()}})();
